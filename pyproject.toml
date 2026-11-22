@@ -5,7 +5,13 @@ description = "Agentic Entrepreneur OS: A Wealth-Formation Opportunity Discovery
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [
-    { name = "FAST NUCES FYP Team", email = "fyp@nu.edu.pk" }
+    { name = "FAST NUCES FYP Team", email = "fyp@nu.edu.pk" },
+    { name = "Muhammad Fareed Mughal", email = "mfareedmughalinfo@gmail.com" },
+    { name = "FAST NUCES Student", email = "k232022@nu.edu.pk" }
+]
+contributors = [
+    { name = "Muhammad Fareed Mughal", email = "mfareedmughalinfo@gmail.com" },
+    { name = "FAST Student", email = "k232022@nu.edu.pk" }
 ]
 dependencies = [
     "pydantic>=2.7.0",

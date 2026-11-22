@@ -124,6 +124,13 @@ fyp/
 
 ---
 
+## 👥 Contributors & Project Team
+- **Muhammad Fareed Mughal** ([mfareedmughalinfo@gmail.com](mailto:mfareedmughalinfo@gmail.com))
+- **FAST NUCES Research Contributor** ([k232022@nu.edu.pk](mailto:k232022@nu.edu.pk))
+- **Academic Supervision:** Department of AI & Computer Science, FAST School of Computing, FAST NUCES Karachi
+
+---
+
 ## 📚 Academic Deliverables
 - **[FYP-I Interim Report](docs/FYP_1_INTERIM_REPORT.md)**: Executive abstract, research questions, theoretical foundations (Bouchaud & Mézard, Pluchino et al., Kelly, Maresca, Barney, Penrose), verification results, and FYP-II roadmap.
 - **[SRS Document](docs/SRS_DOCUMENT.md)**: IEEE Std 830-1998 Software Requirements Specification.

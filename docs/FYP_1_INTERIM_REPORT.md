@@ -4,6 +4,9 @@
 **Session:** Fall 2026  
 **Project Title:** Agentic Entrepreneur OS: A Wealth-Formation Opportunity Discovery Pipeline  
 **Discipline:** BS Artificial Intelligence / Computer Science  
+**Project Group Members & Contributors:**  
+- Muhammad Fareed Mughal (`mfareedmughalinfo@gmail.com`)  
+- FAST NUCES Student Contributor (`k232022@nu.edu.pk`)  
 
 ---
 
