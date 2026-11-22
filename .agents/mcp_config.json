@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "agentic-os-engine": {
+      "command": "c:\\Users\\exam.DESKTOP-LNCC6CA\\Desktop\\fyp\\.venv\\Scripts\\python.exe",
+      "args": [
+        "-m",
+        "mcp_servers.agentic_os_mcp.server"
+      ],
+      "env": {
+        "PYTHONPATH": "c:\\Users\\exam.DESKTOP-LNCC6CA\\Desktop\\fyp"
+      }
+    }
+  }
+}

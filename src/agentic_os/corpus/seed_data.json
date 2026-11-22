@@ -1,0 +1,156 @@
+[
+  {
+    "snippet_id": "SNIP-AUTO-01",
+    "category": "WORKFLOW_AUTOMATION",
+    "source_type": "FORUM",
+    "source_title": "r/automation - Why do 80% of client zapier workflows break after 3 months?",
+    "source_url_or_ref": "https://reddit.com/r/automation/comments/x92k1p",
+    "raw_quote": "Clients come in wanting simple webhooks between HubSpot and Stripe, but as soon as schemas change or an API key expires, everything silently dies and they lose hundreds of leads before realizing it.",
+    "pain_point_summary": "Brittle integrations without schema validation and silent webhook failure causes unmonitored loss of revenue leads.",
+    "frequency_weight": 2.5,
+    "publication_date": "2026-01-15"
+  },
+  {
+    "snippet_id": "SNIP-AUTO-02",
+    "category": "WORKFLOW_AUTOMATION",
+    "source_type": "REVIEW",
+    "source_title": "G2 Make.com Enterprise Reviews - Hidden maintenance cost",
+    "source_url_or_ref": "https://g2.com/products/make/reviews/rev-88419",
+    "raw_quote": "Make is visual and quick to prototype, but managing enterprise credentials, retry buffers, and audit trails across 40 disparate client accounts is a logistical nightmare for our ops team.",
+    "pain_point_summary": "Visual iPaaS lacks centralized credentials governance, automated circuit breakers, and audit logging for multi-client operations.",
+    "frequency_weight": 2.0,
+    "publication_date": "2026-02-02"
+  },
+  {
+    "snippet_id": "SNIP-AUTO-03",
+    "category": "WORKFLOW_AUTOMATION",
+    "source_type": "JOB_POSTING",
+    "source_title": "Upwork - Fix Broken n8n / Python Automation Pipeline & Multi-tenant Sync",
+    "source_url_or_ref": "https://upwork.com/jobs/~01c89f029a",
+    "raw_quote": "Need a reliable senior developer to replace our fragile Zapier hooks with a self-hosted Dockerized n8n engine with PostgreSQL queueing. Willing to pay ongoing monthly maintenance.",
+    "pain_point_summary": "High willingness to pay for self-hosted, queued, resilient workflow automation systems with managed monitoring.",
+    "frequency_weight": 1.8,
+    "publication_date": "2026-02-20"
+  },
+  {
+    "snippet_id": "SNIP-ETL-01",
+    "category": "DATA_ETL_ANALYTICS",
+    "source_type": "FORUM",
+    "source_title": "Hacker News - PDF invoice parsing hell in 2026",
+    "source_url_or_ref": "https://news.ycombinator.com/item?id=3912044",
+    "raw_quote": "Every vendor sends a completely different layout. Regex fails, off-the-shelf OCR hallucinates line item totals, and fine-tuned LLMs are too slow and expensive for 100k daily invoices without deterministic guardrails.",
+    "pain_point_summary": "Document extraction fails at scale due to layout variations, OCR hallucinations, and prohibitive LLM latency without deterministic checks.",
+    "frequency_weight": 3.0,
+    "publication_date": "2026-01-28"
+  },
+  {
+    "snippet_id": "SNIP-ETL-02",
+    "category": "DATA_ETL_ANALYTICS",
+    "source_type": "INDUSTRY_REPORT",
+    "source_title": "Gartner - State of Unstructured Data Processing in Enterprise ERP",
+    "source_url_or_ref": "Gartner Research G0078921-2026",
+    "raw_quote": "Enterprise operations teams spend up to 24% of back-office payroll reconciling unstructured tabular data between legacy SAP/Oracle systems and modern cloud endpoints.",
+    "pain_point_summary": "Enormous payroll drag caused by manual data reconciliation between legacy ERPs and modern software.",
+    "frequency_weight": 2.2,
+    "publication_date": "2026-02-10"
+  },
+  {
+    "snippet_id": "SNIP-ETL-03",
+    "category": "DATA_ETL_ANALYTICS",
+    "source_type": "REVIEW",
+    "source_title": "Capterra - Data Pipeline ETL Tooling Frustrations",
+    "source_url_or_ref": "https://capterra.com/reviews/fivetran-vs-airbyte-pain",
+    "raw_quote": "When custom upstream APIs add undocumented rate limits or pagination quirks, standard connectors fail and hold our reporting pipeline hostage until custom engineering intervenes.",
+    "pain_point_summary": "Standard connectors cannot dynamically adapt to undocumented API rate limits or pagination mutations.",
+    "frequency_weight": 1.9,
+    "publication_date": "2026-02-18"
+  },
+  {
+    "snippet_id": "SNIP-KNOW-01",
+    "category": "KNOWLEDGE_ONBOARDING",
+    "source_type": "FORUM",
+    "source_title": "r/ExperiencedDevs - Our Notion wiki is where engineering knowledge goes to die",
+    "source_url_or_ref": "https://reddit.com/r/ExperiencedDevs/comments/v48ka",
+    "raw_quote": "New senior hires take 6 to 9 weeks just to understand repo interdependencies and deployment rituals because documentation is fragmented across 500 outdated Notion subpages and stale Slack threads.",
+    "pain_point_summary": "Engineering onboarding latency is prolonged by fragmented, stale wikis and unsearchable tribal Slack knowledge.",
+    "frequency_weight": 2.7,
+    "publication_date": "2026-01-19"
+  },
+  {
+    "snippet_id": "SNIP-KNOW-02",
+    "category": "KNOWLEDGE_ONBOARDING",
+    "source_type": "REVIEW",
+    "source_title": "G2 - Enterprise Internal AI Search & Knowledge Bases",
+    "source_url_or_ref": "https://g2.com/products/glean/reviews/g2-glean-cost",
+    "raw_quote": "Glean is fantastic but completely unaffordable for mid-sized firms ($50k+ minimums). We desperately need a localized, privacy-compliant agentic knowledge retrieval system that hooks into GitHub and Slack.",
+    "pain_point_summary": "Mid-market companies are priced out of six-figure enterprise search tools, demanding affordable localized RAG agents.",
+    "frequency_weight": 2.4,
+    "publication_date": "2026-02-05"
+  },
+  {
+    "snippet_id": "SNIP-KNOW-03",
+    "category": "KNOWLEDGE_ONBOARDING",
+    "source_type": "INDUSTRY_REPORT",
+    "source_title": "McKinsey - Developer Productivity and Knowledge Discovery Drag",
+    "source_url_or_ref": "McKinsey Digital Q4-2025/2026 Survey",
+    "raw_quote": "Knowledge workers lose an average of 1.8 hours every working day searching for and gathering information trapped in organizational silos.",
+    "pain_point_summary": "Severe 20%+ daily productivity loss attributable directly to enterprise information silos.",
+    "frequency_weight": 2.1,
+    "publication_date": "2026-02-12"
+  },
+  {
+    "snippet_id": "SNIP-SEC-01",
+    "category": "COMPLIANCE_SECURITY",
+    "source_type": "FORUM",
+    "source_title": "r/devops - SOC2 audit prep almost destroyed our 10-person startup",
+    "source_url_or_ref": "https://reddit.com/r/devops/comments/z882x1",
+    "raw_quote": "We burned 3 months of engineering velocity pulling manual IAM screenshots, AWS security group logs, and policy attestations to satisfy the auditor. Vanta helped a bit, but closing the actual remediation gaps required hands-on scripts.",
+    "pain_point_summary": "Compliance audits paralyze technical velocity due to manual artifact collection and gap remediation.",
+    "frequency_weight": 2.8,
+    "publication_date": "2026-01-22"
+  },
+  {
+    "snippet_id": "SNIP-SEC-02",
+    "category": "COMPLIANCE_SECURITY",
+    "source_type": "JOB_POSTING",
+    "source_title": "Indeed - Contract Security & Infrastructure Compliance Automator",
+    "source_url_or_ref": "https://indeed.com/viewjob?jk=a87f192b0",
+    "raw_quote": "Seeking DevOps contractor to write Terraform policies and automated GitHub Actions compliance checks for ISO 27001 readiness. Fixed rate $6,000 for full audit-ready pack.",
+    "pain_point_summary": "High willingness to purchase pre-packaged compliance automation packs and audit-readiness harnesses.",
+    "frequency_weight": 2.3,
+    "publication_date": "2026-02-14"
+  },
+  {
+    "snippet_id": "SNIP-SEC-03",
+    "category": "COMPLIANCE_SECURITY",
+    "source_type": "INDUSTRY_REPORT",
+    "source_title": "PwC Global Digital Trust Insights 2026",
+    "source_url_or_ref": "PwC Cyber & Trust Insights 2026",
+    "raw_quote": "72% of mid-tier technology vendors cite continuous third-party security verification as a mandatory prerequisite to enterprise sales pipeline conversion.",
+    "pain_point_summary": "Lack of verified continuous compliance directly blocks B2B enterprise sales pipelines.",
+    "frequency_weight": 2.0,
+    "publication_date": "2026-02-08"
+  },
+  {
+    "snippet_id": "SNIP-DEV-01",
+    "category": "DEVELOPER_TOOLING",
+    "source_type": "FORUM",
+    "source_title": "Hacker News - LLM API cost monitoring & rate limit spikes",
+    "source_url_or_ref": "https://news.ycombinator.com/item?id=3899211",
+    "raw_quote": "Our backend woke up to a $14,000 OpenAI bill because a rogue recursive agent loop triggered thousands of tool calls without local circuit breakers or semantic cache hits.",
+    "pain_point_summary": "Runaway LLM API bills and unexpected latency spikes without semantic caching or proxy-level cost fences.",
+    "frequency_weight": 2.9,
+    "publication_date": "2026-01-30"
+  },
+  {
+    "snippet_id": "SNIP-DEV-02",
+    "category": "DEVELOPER_TOOLING",
+    "source_type": "REVIEW",
+    "source_title": "ProductHunt - LLM Proxy Gateway feedback",
+    "source_url_or_ref": "https://producthunt.com/posts/portkey-lite-eval",
+    "raw_quote": "Existing proxy gateways are either too complex to deploy on-premise or lock you into their SaaS cloud. We need an open, self-hosted proxy with fallback routing between Ollama and Gemini.",
+    "pain_point_summary": "Demand for self-hosted, lightweight proxy routers with local Ollama fallback and token fencing.",
+    "frequency_weight": 2.2,
+    "publication_date": "2026-02-16"
+  }
+]
