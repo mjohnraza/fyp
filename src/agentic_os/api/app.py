@@ -80,18 +80,34 @@ FRONTEND_DIR = ROOT_DIR / "frontend"
 LEARNING_DIR = ROOT_DIR / "learning_module"
 
 if LEARNING_DIR.exists():
+    learning_index = LEARNING_DIR / "index.html"
+
+    @app.get("/learning")
+    @app.get("/learning/")
+    @app.get("/learning-module")
+    @app.get("/learning_module")
+    @app.get("/learning_module/index.html")
+    def serve_learning_module():
+        return FileResponse(learning_index)
+
     app.mount("/learning", StaticFiles(directory=str(LEARNING_DIR), html=True), name="learning")
+    app.mount("/learning_module", StaticFiles(directory=str(LEARNING_DIR), html=True), name="learning_module_static")
 
 if FRONTEND_DIR.exists():
+    frontend_index = FRONTEND_DIR / "index.html"
+
     @app.get("/")
+    @app.get("/index.html")
+    @app.get("/frontend")
+    @app.get("/frontend/index.html")
     def serve_frontend_root():
-        return FileResponse(FRONTEND_DIR / "index.html")
+        return FileResponse(frontend_index)
 
     app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
 
 
 def start():
-    uvicorn.run("src.agentic_os.api.app:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("src.agentic_os.api.app:app", host="127.0.0.1", port=8000, reload=True)
 
 
 if __name__ == "__main__":
