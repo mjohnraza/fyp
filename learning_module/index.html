@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building Businesses Around Fundamental Human Needs</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg: #faf6ec;
+      --surface: #fffdf8;
+      --surface-alt: #f3ead2;
+      --rule: rgba(139,101,20,0.24);
+      --ink: #211a0f;
+      --ink-soft: #786646;
+      --gold: #93630f;
+      --gold-bright: #b9860f;
+      --gold-wash: rgba(185,134,15,0.09);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: auto;
+      padding: 48px 24px 100px;
+    }
+
+    header {
+      margin-bottom: 12px;
+    }
+
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-link {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-link:hover {
+      color: var(--gold-bright);
+      text-decoration: underline;
+    }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+      font-weight: 480;
+      font-size: 2.7rem;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin: 0 0 22px;
+    }
+
+    .rule-orn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 30px;
+    }
+    .rule-orn::before,
+    .rule-orn::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+    .rule-orn span {
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--gold);
+      transform: rotate(45deg);
+    }
+
+    h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 480;
+      font-size: 1.55rem;
+      line-height: 1.28;
+      letter-spacing: -0.003em;
+      margin: 0 0 18px;
+    }
+
+    h3 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1.02rem;
+      margin: 0 0 6px;
+    }
+
+    p { margin: 0 0 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    .intro {
+      font-size: 1.12rem;
+      color: var(--ink-soft);
+      max-width: 62ch;
+    }
+
+    section {
+      padding: 40px 0;
+      border-top: 1px solid var(--rule);
+    }
+    section:first-of-type { border-top: none; }
+
+    .need {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 4px 18px;
+      margin: 26px 0;
+    }
+
+    .need-num {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.5rem;
+      color: var(--gold-bright);
+      line-height: 1.3;
+    }
+
+    .need h3, .need p { grid-column: 2; }
+    .need p { color: var(--ink); }
+
+    ul {
+      padding-left: 22px;
+      margin: 0 0 16px;
+    }
+    li { margin-bottom: 6px; }
+    li::marker { color: var(--gold-bright); }
+
+    blockquote {
+      margin: 8px 0 0;
+      padding: 0;
+      text-align: center;
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-weight: 420;
+      font-size: 1.4rem;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    blockquote::before,
+    blockquote::after {
+      content: '';
+      display: block;
+      width: 34px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 18px;
+    }
+    blockquote::after { margin: 18px auto 0; }
+
+    .small {
+      color: var(--ink-soft);
+      font-size: .92rem;
+    }
+
+    /* --- Tool chrome: timer & flashcards get a distinct instrument treatment --- */
+
+    .timer {
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--surface-alt);
+      border: 1px solid var(--rule);
+      padding: 14px 20px;
+      margin-bottom: 44px;
+      backdrop-filter: blur(6px);
+    }
+
+    #time {
+      font-family: 'Fraunces', serif;
+      font-size: 1.65rem;
+      font-variant-numeric: tabular-nums;
+      font-weight: 500;
+      min-width: 84px;
+      color: var(--gold);
+    }
+
+    button {
+      border: 1px solid var(--rule);
+      background: var(--surface);
+      color: var(--ink);
+      padding: 9px 15px;
+      font-family: 'Inter', sans-serif;
+      font-size: .88rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: border-color .15s ease, color .15s ease;
+    }
+
+    button:hover { border-color: var(--gold); color: var(--gold); }
+
+    .timer button {
+      background: var(--ink);
+      border: 1px solid var(--ink);
+      color: var(--bg);
+    }
+    .timer button:hover { background: var(--gold); border-color: var(--gold); color: var(--surface); }
+
+    .tool-panel {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      padding: 32px;
+    }
+
+    .flashcard-progress {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--ink-soft);
+      margin-bottom: 18px;
+      font-size: .9rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .flashcard {
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px 4px;
+    }
+
+    .flashcard-label,
+    .answer-label {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: .95rem;
+      margin-bottom: 16px;
+    }
+
+    .flashcard-question {
+      font-family: 'Fraunces', serif;
+      font-weight: 440;
+      font-size: 1.5rem;
+      line-height: 1.42;
+      max-width: 560px;
+      margin: 0 auto 26px;
+    }
+
+    .reveal-btn {
+      background: var(--ink);
+      color: var(--bg);
+      border: 1px solid var(--ink);
+      padding: 10px 22px;
+    }
+    .reveal-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--surface); }
+
+    .flashcard-answer {
+      display: none;
+      margin: 24px auto 0;
+      max-width: 560px;
+      padding: 20px 22px;
+      background: var(--gold-wash);
+      border-left: 2px solid var(--gold-bright);
+      color: var(--ink);
+      text-align: left;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    .flashcard-answer.visible {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .flashcard-controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .card-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .card-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--rule);
+      border: 1px solid transparent;
+    }
+
+    .card-dot.active {
+      background: var(--surface);
+      border-color: var(--gold);
+    }
+
+    .card-dot.revealed {
+      background: var(--gold-bright);
+    }
+
+    #finalRule {
+      margin-top: 10px;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2.15rem; }
+      .timer { align-items: flex-start; flex-direction: column; }
+      .tool-panel { padding: 24px 20px; }
+      .need { grid-template-columns: 32px 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="nav-bar">
+    <a href="../frontend/index.html" class="nav-link">← Return to Opportunity Discovery Intake</a>
+    <span class="small">Interactive Curriculum Module</span>
+  </div>
+
+  <div class="timer">
+    <div>
+      <div class="small">Recall session timer</div>
+      <div id="time">10:00</div>
+    </div>
+    <div>
+      <button onclick="startTimer()">Start</button>
+      <button onclick="pauseTimer()">Pause</button>
+      <button onclick="resetTimer()">Reset</button>
+    </div>
+  </div>
+
+  <header>
+    <h1>Building Businesses Around Fundamental Human Needs</h1>
+    <div class="rule-orn"><span></span></div>
+    <p class="intro">
+      Every successful business starts by solving a problem. Technology and trends change,
+      but many human needs remain constant. Maslow's Hierarchy of Needs provides a useful
+      framework for understanding these fundamental needs—and why certain markets remain
+      relevant across generations.
+    </p>
+  </header>
+
+  <section>
+    <h2>Maslow's Hierarchy of Needs</h2>
+
+    <div class="need">
+      <div class="need-num">I</div>
+      <h3>Physiological Needs</h3>
+      <p>The basic requirements for survival: <strong>food, water, warmth, sleep, and air.</strong></p>
+    </div>
+
+    <div class="need">
+      <div class="need-num">II</div>
+      <h3>Safety Needs</h3>
+      <p>The desire for <strong>security, stability, financial protection, health, and a safe environment.</strong></p>
+    </div>
+
+    <div class="need">
+      <div class="need-num">III</div>
+      <h3>Love &amp; Belonging</h3>
+      <p>The need for <strong>friendship, family, intimacy, community, and meaningful connection.</strong></p>
+    </div>
+
+    <div class="need">
+      <div class="need-num">IV</div>
+      <h3>Esteem</h3>
+      <p>The desire for <strong>self-respect, achievement, recognition, confidence, status, and independence.</strong></p>
+    </div>
+
+    <div class="need">
+      <div class="need-num">V</div>
+      <h3>Self-Actualization</h3>
+      <p>The desire to <strong>reach one's potential through personal growth, creativity, learning, and meaningful goals.</strong></p>
+    </div>
+
+    <p style="margin-top: 30px;">
+      These fundamental needs create enduring markets such as <strong>wealth, health, and relationships</strong>—
+      markets that remain relevant regardless of changing technology or trends.
+    </p>
+  </section>
+
+  <section>
+    <h2>Wealth — Safety &amp; Esteem</h2>
+    <p>People seek <strong>financial security, freedom, achievement, and a better standard of living.</strong></p>
+    <p>Common problems include:</p>
+    <ul>
+      <li>Earning more money</li>
+      <li>Building a business</li>
+      <li>Finding better career opportunities</li>
+      <li>Developing valuable skills</li>
+      <li>Achieving financial independence</li>
+    </ul>
+    <p>The methods may change, but the desire for <strong>financial security and success</strong> remains.</p>
+  </section>
+
+  <section>
+    <h2>Health — Physiological &amp; Safety</h2>
+    <p>People want to <strong>survive, feel healthy, have energy, and enjoy a higher quality of life.</strong></p>
+    <p>Common problems include:</p>
+    <ul>
+      <li>Diet and nutrition</li>
+      <li>Exercise and fitness</li>
+      <li>Sleep and recovery</li>
+      <li>Stress and mindfulness</li>
+      <li>Weight management</li>
+    </ul>
+    <p>The products may change, but the desire to <strong>feel and live better</strong> remains.</p>
+  </section>
+
+  <section>
+    <h2>Relationships — Love &amp; Belonging</h2>
+    <p>People want to <strong>love and be loved, belong to a community, and build meaningful connections.</strong></p>
+    <p>Common problems include:</p>
+    <ul>
+      <li>Recovering from breakups or divorce</li>
+      <li>Building meaningful relationships</li>
+      <li>Improving communication</li>
+      <li>Becoming more confident in dating</li>
+      <li>Finding community</li>
+    </ul>
+    <p>Technology changes how people connect, but the underlying <strong>need for connection remains.</strong></p>
+  </section>
+
+  <section>
+    <h2>From Need to Business</h2>
+    <p>
+      Maslow helps us understand the <strong>fundamental need</strong>. Entrepreneurship begins
+      when we identify a specific problem within that need and create an offer that delivers
+      a valuable outcome.
+    </p>
+    <blockquote>
+      Find an enduring problem, solve it better, and build an offer around the outcome people truly want.
+    </blockquote>
+  </section>
+
+  <section id="recall">
+    <h2>Active Recall Flashcards</h2>
+    <p class="small" style="margin-bottom: 24px;">
+      Read the prompt, retrieve the answer from memory, then reveal the answer.
+      Use the buttons to move through the deck.
+    </p>
+
+    <div class="tool-panel">
+      <div class="flashcard-progress">
+        <strong id="cardNumber">Card 1 / 8</strong>
+        <span id="cardScore">Revealed: 0 / 8</span>
+      </div>
+
+      <div class="flashcard" id="flashcard">
+        <div class="flashcard-label">Prompt</div>
+        <div class="flashcard-question" id="cardQuestion"></div>
+
+        <button class="reveal-btn" id="revealBtn" onclick="revealCard()">Reveal Answer</button>
+
+        <div class="flashcard-answer" id="cardAnswer">
+          <div class="answer-label">Answer</div>
+          <div id="answerText"></div>
+        </div>
+      </div>
+
+      <div class="flashcard-controls">
+        <button onclick="previousCard()">‹ Previous</button>
+        <button onclick="nextCard()">Next ›</button>
+      </div>
+
+      <div class="card-dots" id="cardDots"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Journal it</h2>
+    <p>
+      Without looking back, explain the entire framework in your own words:
+      <strong>fundamental need → specific problem → valuable outcome → business offer.</strong>
+    </p>
+    <p class="small" id="finalRule">Aim for 100–150 words. Journal your answer in your notebook, then compare it with the lesson above.</p>
+  </section>
+
+</div>
+
+<script>
+  let seconds = 600;
+  let interval = null;
+  const flashcards = [
+    {
+      q: "What are the five levels of Maslow's hierarchy?",
+      a: "Physiological → Safety → Love & Belonging → Esteem → Self-Actualization."
+    },
+    {
+      q: "Which two Maslow levels are most directly connected to the wealth market?",
+      a: "Safety and Esteem."
+    },
+    {
+      q: "Which two levels are connected to the health market?",
+      a: "Physiological and Safety."
+    },
+    {
+      q: "Which Maslow level is the foundation of the relationships market?",
+      a: "Love & Belonging."
+    },
+    {
+      q: "Why do wealth, health, and relationship businesses remain relevant despite technological change?",
+      a: "Because they address enduring fundamental human needs that persist even when technologies and methods change."
+    },
+    {
+      q: "What is the entrepreneurial step between a fundamental need and a business?",
+      a: "Identify a specific problem within the need and create an offer that delivers a valuable outcome."
+    },
+    {
+      q: "Give two examples of problems businesses can solve in the wealth market.",
+      a: "Examples: earning more money, building a business, finding better career opportunities, developing valuable skills, or achieving financial independence."
+    },
+    {
+      q: "Complete the core principle: “Find an enduring problem, ________, and ________.”",
+      a: "“solve it better” and “build an offer around the outcome people truly want.”"
+    }
+  ];
+
+  let currentCard = 0;
+  const revealedCards = new Set();
+
+  function renderTime() {
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    document.getElementById('time').textContent = `${m}:${s}`;
+    document.title = `${m}:${s} — Business Needs`;
+  }
+
+  function startTimer() {
+    if (interval || seconds <= 0) return;
+    interval = setInterval(() => {
+      if (seconds > 0) {
+        seconds--;
+        renderTime();
+      } else {
+        pauseTimer();
+        alert('Time is up. Move to the final retrieval test.');
+      }
+    }, 1000);
+  }
+
+  function pauseTimer() {
+    clearInterval(interval);
+    interval = null;
+  }
+
+  function resetTimer() {
+    pauseTimer();
+    seconds = 600;
+    renderTime();
+  }
+
+  function renderFlashcard() {
+    const card = flashcards[currentCard];
+    document.getElementById('cardNumber').textContent =
+      `Card ${currentCard + 1} / ${flashcards.length}`;
+    document.getElementById('cardScore').textContent =
+      `Revealed: ${revealedCards.size} / ${flashcards.length}`;
+    document.getElementById('cardQuestion').textContent = card.q;
+    document.getElementById('answerText').textContent = card.a;
+
+    const answer = document.getElementById('cardAnswer');
+    const revealBtn = document.getElementById('revealBtn');
+
+    if (revealedCards.has(currentCard)) {
+      answer.classList.add('visible');
+      revealBtn.textContent = 'Hide Answer';
+    } else {
+      answer.classList.remove('visible');
+      revealBtn.textContent = 'Reveal Answer';
+    }
+
+    const dots = document.getElementById('cardDots');
+    dots.innerHTML = '';
+    flashcards.forEach((_, i) => {
+      const dot = document.createElement('span');
+      dot.className = 'card-dot';
+      if (i === currentCard) dot.classList.add('active');
+      if (revealedCards.has(i)) dot.classList.add('revealed');
+      dots.appendChild(dot);
+    });
+  }
+
+  function revealCard() {
+    const answer = document.getElementById('cardAnswer');
+    if (revealedCards.has(currentCard)) {
+      revealedCards.delete(currentCard);
+    } else {
+      revealedCards.add(currentCard);
+    }
+    renderFlashcard();
+  }
+
+  function nextCard() {
+    currentCard = (currentCard + 1) % flashcards.length;
+    renderFlashcard();
+  }
+
+  function previousCard() {
+    currentCard = (currentCard - 1 + flashcards.length) % flashcards.length;
+    renderFlashcard();
+  }
+
+  renderTime();
+  renderFlashcard();
+</script>
+
+</body>
+</html>

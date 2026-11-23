@@ -1,6 +1,9 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
+from pathlib import Path
 import uvicorn
 
 from src.agentic_os.schemas.profile import FounderProfile, DecompositionOutput
@@ -70,6 +73,21 @@ def run_full_pipeline(req: PipelineRunRequest):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent.parent
+FRONTEND_DIR = ROOT_DIR / "frontend"
+LEARNING_DIR = ROOT_DIR / "learning_module"
+
+if LEARNING_DIR.exists():
+    app.mount("/learning", StaticFiles(directory=str(LEARNING_DIR), html=True), name="learning")
+
+if FRONTEND_DIR.exists():
+    @app.get("/")
+    def serve_frontend_root():
+        return FileResponse(FRONTEND_DIR / "index.html")
+
+    app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
 
 
 def start():

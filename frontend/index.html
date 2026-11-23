@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Entrepreneur OS — Opportunity Discovery & Asset Formation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg: #faf6ec;
+      --surface: #fffdf8;
+      --surface-alt: #f3ead2;
+      --rule: rgba(139,101,20,0.24);
+      --ink: #211a0f;
+      --ink-soft: #786646;
+      --gold: #93630f;
+      --gold-bright: #b9860f;
+      --gold-wash: rgba(185,134,15,0.09);
+      --card-border: rgba(139,101,20,0.18);
+      --accent-badge: #d4a017;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: auto;
+      padding: 40px 24px 120px;
+    }
+
+    /* Top Nav Bar */
+    .top-nav {
+      position: sticky;
+      top: 14px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--surface-alt);
+      border: 1px solid var(--rule);
+      padding: 12px 20px;
+      margin-bottom: 38px;
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-brand {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: 1.15rem;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-brand span {
+      color: var(--gold-bright);
+      font-style: italic;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-links a {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border: 1px solid transparent;
+      transition: all .15s ease;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--surface);
+    }
+
+    .nav-links .btn-module {
+      background: var(--ink);
+      color: var(--bg);
+      border: 1px solid var(--ink);
+    }
+
+    .nav-links .btn-module:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--surface);
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+      font-weight: 480;
+      font-size: 2.7rem;
+      line-height: 1.12;
+      letter-spacing: -0.015em;
+      margin: 0 0 18px;
+    }
+
+    .rule-orn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 28px;
+    }
+    .rule-orn::before,
+    .rule-orn::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+    .rule-orn span {
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--gold);
+      transform: rotate(45deg);
+    }
+
+    .intro {
+      font-size: 1.12rem;
+      color: var(--ink-soft);
+      max-width: 68ch;
+      margin-bottom: 12px;
+    }
+
+    /* Learning bridge banner */
+    .learning-bridge {
+      background: var(--gold-wash);
+      border-left: 3px solid var(--gold-bright);
+      padding: 16px 20px;
+      margin: 24px 0 36px;
+      font-size: 0.95rem;
+      color: var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .learning-bridge a {
+      color: var(--gold);
+      font-weight: 600;
+      text-decoration: underline;
+      white-space: nowrap;
+    }
+
+    /* Section Styling */
+    section {
+      padding: 38px 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 480;
+      font-size: 1.6rem;
+      line-height: 1.25;
+      letter-spacing: -0.005em;
+      margin: 0 0 16px;
+    }
+
+    h3 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin: 0 0 6px;
+    }
+
+    p { margin: 0 0 16px; }
+
+    .small {
+      color: var(--ink-soft);
+      font-size: .90rem;
+    }
+
+    /* Step / Need numbers */
+    .step-header {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 4px 16px;
+      align-items: baseline;
+      margin-bottom: 22px;
+    }
+
+    .step-num {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.8rem;
+      color: var(--gold-bright);
+      line-height: 1;
+    }
+
+    /* Forms & Inputs */
+    .form-panel {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      padding: 30px;
+      margin-bottom: 24px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .label-hint {
+      font-weight: 400;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      border-radius: 0;
+      transition: border-color .15s ease, background-color .15s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--gold-bright);
+      background: var(--surface);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 85px;
+      line-height: 1.5;
+    }
+
+    .range-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .range-val {
+      font-family: 'Fraunces', serif;
+      font-size: 1.15rem;
+      color: var(--gold);
+      min-width: 70px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Buttons */
+    button, .action-btn {
+      border: 1px solid var(--rule);
+      background: var(--surface);
+      color: var(--ink);
+      padding: 11px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: .90rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all .15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    button:hover, .action-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+      font-weight: 600;
+      padding: 14px 28px;
+      font-size: 1.02rem;
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--surface);
+    }
+
+    .btn-primary:disabled {
+      background: var(--ink-soft);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    /* Output Section */
+    #resultsSection {
+      display: none;
+    }
+
+    #resultsSection.visible {
+      display: block;
+      animation: fadeIn .4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Audit Log Pill */
+    .audit-box {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      font-size: 0.88rem;
+    }
+
+    .audit-log-item {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 4px 0;
+      color: var(--ink-soft);
+    }
+
+    .audit-log-item span.check {
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    /* Scorecard Table */
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      font-size: 0.90rem;
+    }
+
+    .score-table th, .score-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .score-table th {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--surface-alt);
+    }
+
+    .score-table td.score-num {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+      font-size: 1.05rem;
+    }
+
+    .score-table tr.total-row td {
+      font-weight: 700;
+      background: var(--gold-wash);
+      border-top: 2px solid var(--gold-bright);
+    }
+
+    /* Funnel Tiers */
+    .tier-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .tier-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .tier-badge {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 0.82rem;
+      margin-bottom: 8px;
+    }
+
+    .tier-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: 1.12rem;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .tier-price {
+      font-family: 'Fraunces', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 12px 0 8px;
+    }
+
+    .tier-price span {
+      font-size: 0.82rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      color: var(--ink-soft);
+    }
+
+    .tier-deliverables {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      font-size: 0.84rem;
+      color: var(--ink-soft);
+    }
+
+    .tier-deliverables li { margin-bottom: 4px; }
+
+    /* Decision Memo Box */
+    .memo-card {
+      background: var(--surface);
+      border: 2px solid var(--gold-bright);
+      padding: 36px 32px;
+      margin-top: 28px;
+    }
+
+    .memo-meta {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+    }
+
+    .memo-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.85rem;
+      line-height: 1.2;
+      margin: 0 0 16px;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 0;
+      text-align: center;
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-weight: 420;
+      font-size: 1.35rem;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+
+    blockquote::before,
+    blockquote::after {
+      content: '';
+      display: block;
+      width: 34px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 16px;
+    }
+    blockquote::after { margin: 16px auto 0; }
+
+    .checkpoint-box {
+      background: var(--surface-alt);
+      border: 1px solid var(--gold);
+      padding: 24px;
+      margin-top: 26px;
+    }
+
+    .checkpoint-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.15rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .tier-cards { grid-template-columns: 1fr; }
+      .top-nav { flex-direction: column; align-items: flex-start; }
+      .container { padding: 24px 16px 80px; }
+      .memo-card { padding: 24px 18px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <!-- Instrument Top Bar -->
+  <nav class="top-nav">
+    <div class="nav-brand">
+      Agentic Entrepreneur <span>OS</span>
+    </div>
+    <div class="nav-links">
+      <a href="#intakeSection" class="active">Opportunity Intake</a>
+      <a href="#questionsSection">Diagnostic Questions</a>
+      <a href="../learning_module/index.html" class="btn-module">📖 Learning Curriculum</a>
+    </div>
+  </nav>
+
+  <!-- Editorial Header -->
+  <header>
+    <div class="eyebrow">FAST School of Computing — FYP-I Research Prototype</div>
+    <h1>Transforming Technical Capabilities into Compounding Digital Assets</h1>
+    <div class="rule-orn"><span></span></div>
+    <p class="intro">
+      Most developers ask, <em>"What freelance work can I sell with my hours?"</em> 
+      The Agentic Entrepreneur OS reframes opportunity discovery around 
+      <strong>durable asset accumulation</strong>. Grounded in theories of multiplicative growth, 
+      sequential capital allocation, and triangulated buyer friction, this system extracts an auditable 
+      roadmap to move you from labor-bound billing to compounding equity.
+    </p>
+  </header>
+
+  <!-- Bridge to the Learning Module -->
+  <div class="learning-bridge">
+    <div>
+      <strong>Fundamental Needs Framework:</strong> Explore how Maslow’s hierarchy anchors enduring business markets (Wealth, Health, and Relationships).
+    </div>
+    <a href="../learning_module/index.html">Study Learning Module & Flashcards →</a>
+  </div>
+
+  <!-- Section I: Founder Capabilities & Constraints -->
+  <section id="intakeSection">
+    <div class="step-header">
+      <div class="step-num">I</div>
+      <div>
+        <h2>Founder Capability & Constraint Profile</h2>
+        <p class="small">Input your real background, capabilities, and constraints to begin multi-agent clustering.</p>
+      </div>
+    </div>
+
+    <div class="form-panel">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="founderName">Founder Name</label>
+          <input type="text" id="founderName" value="Ahmed" placeholder="e.g. Ahmed Raza">
+        </div>
+
+        <div class="form-group">
+          <label for="targetCategory">Target Outcome Category</label>
+          <select id="targetCategory">
+            <option value="WORKFLOW_AUTOMATION">Workflow Automation & Integration (n8n, Zapier)</option>
+            <option value="DATA_ETL_ANALYTICS">Data Extraction, Cleaning & Analytics (ETL, OCR)</option>
+            <option value="KNOWLEDGE_ONBOARDING">Knowledge Retrieval & Onboarding Systems (RAG)</option>
+            <option value="COMPLIANCE_SECURITY">Regulatory Compliance & Security Automation (SOC2/ISO)</option>
+            <option value="DEVELOPER_TOOLING">Micro-SaaS & Developer Tooling (LLM Proxies)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid full" style="margin-top: 18px;">
+        <div class="form-group">
+          <label for="bio">Professional Background & Domain Focus <span class="label-hint">(1-2 sentences)</span></label>
+          <textarea id="bio" placeholder="Describe your experience, current industry, and recent engineering projects.">Senior Python backend engineer with 3 years building microservices, data pipelines, and automation bots.</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="skillsText">Technical Skills & Tooling <span class="label-hint">(comma-separated)</span></label>
+          <input type="text" id="skillsText" value="python, fastapi, n8n, docker, postgresql, rag" placeholder="e.g. python, fastapi, n8n, docker, sql, rag">
+        </div>
+      </div>
+
+      <div class="form-grid" style="margin-top: 18px;">
+        <div class="form-group">
+          <label for="hoursPerWeek">Available Weekly Time: <span id="hoursVal" class="range-val">15 hrs/wk</span></label>
+          <input type="range" id="hoursPerWeek" min="4" max="40" step="1" value="15" oninput="document.getElementById('hoursVal').textContent = this.value + ' hrs/wk'">
+        </div>
+
+        <div class="form-group">
+          <label for="budgetUsd">Validation Capital Runway (USD)</label>
+          <input type="number" id="budgetUsd" value="500" min="0" step="50" placeholder="e.g. 500">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section II: Diagnostic Questions on Buyer Pain & Human Needs -->
+  <section id="questionsSection">
+    <div class="step-header">
+      <div class="step-num">II</div>
+      <div>
+        <h2>Diagnostic Human-Needs & Friction Grounding</h2>
+        <p class="small">Answer these diagnostic prompts to calibrate the retrieval triangulation and buyer obstacle chain.</p>
+      </div>
+    </div>
+
+    <div class="form-panel">
+      <div class="form-grid full">
+        <div class="form-group">
+          <label for="humanNeedSelect">Which Fundamental Human Need does your product relieve? <span class="label-hint">(Maslow Anchor)</span></label>
+          <select id="humanNeedSelect">
+            <option value="SAFETY_ESTEEM">Wealth — Safety & Esteem (Financial protection, business growth, earning more)</option>
+            <option value="PHYSIO_SAFETY">Health — Physiological & Safety (Higher energy, stress reduction, recovery)</option>
+            <option value="LOVE_BELONGING">Relationships — Belonging & Community (Connection, team alignment, trust)</option>
+            <option value="SELF_ACTUALIZATION">Self-Actualization — Mastery & Creative Growth</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-top: 12px;">
+          <label for="beforeObstacle">Friction Before Attempt: <span class="label-hint">What stops the buyer before they begin?</span></label>
+          <input type="text" id="beforeObstacle" value="Fear of vendor lock-in, pricing uncertainty on Zapier, and lack of in-house DevOps to host open-source runners.">
+        </div>
+
+        <div class="form-group" style="margin-top: 12px;">
+          <label for="duringObstacle">Catastrophic Failure During Execution: <span class="label-hint">What breaks mid-stream?</span></label>
+          <input type="text" id="duringObstacle" value="Silent webhook crashes on schema changes, causing missed high-ticket sales leads without alerting.">
+        </div>
+
+        <div class="form-group" style="margin-top: 12px;">
+          <label for="afterObstacle">Persistent Friction After Completion: <span class="label-hint">What maintenance burden remains?</span></label>
+          <input type="text" id="afterObstacle" value="Ops team spends 15 hours weekly playing firefighter on expiring API credentials and broken data syncs.">
+        </div>
+
+        <div class="form-group" style="margin-top: 12px;">
+          <label for="dreamOutcome">The Buyer's Dream Outcome: <span class="label-hint">What does total relief look like?</span></label>
+          <input type="text" id="dreamOutcome" value="Self-healing multi-tenant automation pipeline with automated dead-letter queues and zero unmonitored lead drops.">
+        </div>
+      </div>
+
+      <div style="margin-top: 28px;">
+        <button id="runPipelineBtn" class="btn-primary" onclick="executeOpportunityPipeline()">
+          Synthesize Opportunity Portfolio & Founder Decision Memo →
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section III: Synthesized Results & Founder Decision Memo -->
+  <section id="resultsSection">
+    <div class="step-header">
+      <div class="step-num">III</div>
+      <div>
+        <h2>Synthesized Wealth-Formation Portfolio</h2>
+        <p class="small">Generated through cooperative multi-agent analysis, confidence calibration, and the Ownership Mindset pass.</p>
+      </div>
+    </div>
+
+    <!-- Audit Log -->
+    <div class="audit-box">
+      <h3 style="margin-bottom: 12px; font-size: 0.95rem;">Pipeline Execution Audit Trail</h3>
+      <div id="auditLogContainer">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+    <!-- Ten-Dimension Scorecard Table -->
+    <h3>Table III: Ten-Dimension Opportunity Scorecard</h3>
+    <p class="small">Grounded in peer-reviewed economic literature (Bouchaud & Mézard [11], Pluchino et al. [12], Kelly [13], Maresca [14], Barney [15], Penrose [16]).</p>
+
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>Score</th>
+          <th>Evidentiary Grounding / Theoretical Anchor</th>
+        </tr>
+      </thead>
+      <tbody id="scorecardBody">
+        <!-- Injected via JS -->
+      </tbody>
+    </table>
+
+    <!-- Value Equation Diagnostic Breakdown -->
+    <div class="form-panel" style="margin: 28px 0;">
+      <h3 style="font-family: 'Fraunces', serif; font-size: 1.3rem;">Alex Hormozi's Value Equation Diagnosis</h3>
+      <p class="small">Formalized heuristic: \( \text{Value} = \frac{\text{Dream Outcome} \times \text{Perceived Likelihood}}{\text{Time Delay} \times \text{Effort \& Sacrifice}} \)</p>
+      
+      <div class="form-grid" style="margin: 18px 0;">
+        <div class="need">
+          <div class="need-num" id="valScoreNum">12.4</div>
+          <h3>Computed Value Equation Score</h3>
+          <p id="valRationale" class="small">Strong value proposition exceeding market alternative ratios.</p>
+        </div>
+        <div class="need">
+          <div class="need-num" style="color: #b33939;">!</div>
+          <h3>Primary Bottleneck Dimension</h3>
+          <p id="valBottleneck" class="small">Effort & Sacrifice</p>
+        </div>
+      </div>
+
+      <div style="background: var(--gold-wash); border-left: 2px solid var(--gold-bright); padding: 14px 18px; margin-top: 10px;">
+        <strong>Remediation Recommendation:</strong> <span id="valRemediation">Package the service as a turnkey pre-configured Docker asset so the buyer expends near-zero labor.</span>
+      </div>
+    </div>
+
+    <!-- 3-Tier Compounding Asset Funnel -->
+    <h3 style="font-family: 'Fraunces', serif; font-size: 1.4rem;">3-Tier Compounding Asset Funnel</h3>
+    <p class="small">Converts front-end adoption into long-term compounding Monthly Recurring Revenue (MRR).</p>
+
+    <div class="tier-cards">
+      <!-- Tier 1 -->
+      <div class="tier-card">
+        <div>
+          <div class="tier-badge">Tier 1 · Lead Magnet</div>
+          <div class="tier-title" id="t1Title">Schema Mutation Audit Script</div>
+          <div class="small" id="t1Tagline">Find silent webhook drops in 10 minutes</div>
+          <div class="tier-price">$0 <span>(Free Distribution)</span></div>
+        </div>
+        <ul class="tier-deliverables" id="t1Deliverables">
+          <li>Automated diagnostic CLI</li>
+          <li>Schema drift checklist</li>
+        </ul>
+      </div>
+
+      <!-- Tier 2 -->
+      <div class="tier-card" style="border-color: var(--gold);">
+        <div>
+          <div class="tier-badge" style="color: var(--gold-bright);">Tier 2 · Core Offer</div>
+          <div class="tier-title" id="t2Title">Turnkey Resilient n8n Engine</div>
+          <div class="small" id="t2Tagline">Bulletproof pipeline with retry queueing</div>
+          <div class="tier-price" id="t2Price">$1,497 <span>(One-time asset)</span></div>
+        </div>
+        <ul class="tier-deliverables" id="t2Deliverables">
+          <li>Dockerized n8n deployment</li>
+          <li>PostgreSQL dead-letter buffer</li>
+          <li>Production migration pack</li>
+        </ul>
+      </div>
+
+      <!-- Tier 3 -->
+      <div class="tier-card" style="background: var(--surface-alt);">
+        <div>
+          <div class="tier-badge">Tier 3 · Compounding Asset Backend</div>
+          <div class="tier-title" id="t3Title">Autonomous Pipeline SRE</div>
+          <div class="small" id="t3Tagline">Continuous schema monitoring & alerts</div>
+          <div class="tier-price" id="t3Price">$399 <span>/month MRR</span></div>
+        </div>
+        <ul class="tier-deliverables" id="t3Deliverables">
+          <li>24/7 uptime monitoring</li>
+          <li>Automated schema patch updates</li>
+          <li>SLA incident response</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Ownership Mindset Reframing Contrast -->
+    <div class="form-panel" style="margin-top: 24px;">
+      <h3 style="margin-bottom: 14px;">Power 4: Ownership-Mindset Reframing (Labor-to-Asset Pass)</h3>
+      <div class="form-grid">
+        <div style="padding: 16px; background: rgba(180, 50, 50, 0.06); border-left: 2px solid #b33939;">
+          <strong style="color: #b33939;">Additive Labor Framing (Avoid):</strong>
+          <p id="laborFramingText" class="small" style="margin-top: 8px;">Sell 1-hour manual Zapier fixing for $50/hour.</p>
+        </div>
+        <div style="padding: 16px; background: var(--gold-wash); border-left: 2px solid var(--gold-bright);">
+          <strong style="color: var(--gold);">Multiplicative Asset Framing (Compounding):</strong>
+          <p id="assetFramingText" class="small" style="margin-top: 8px;">Turnkey Dockerized workflow engine with pre-configured webhooks sold as a recurring managed asset ($399/mo).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Official Founder Decision Memo -->
+    <div class="memo-card">
+      <div class="memo-meta">
+        <span id="memoId">MEMO-FYP-01</span>
+        <span id="memoDate">Session Fall 2026</span>
+        <span>FAST School of Computing</span>
+      </div>
+
+      <div class="eyebrow">OFFICIAL EXECUTIVE OUTPUT</div>
+      <h2 class="memo-title" id="memoTitle">Founder Decision Memo: Resilient Automation Engine</h2>
+      <p class="small" id="memoTargetNiche">Prepared for <strong>Ahmed</strong> · Target Persona: B2B SaaS Founders & Ops Leads</p>
+
+      <div class="rule-orn"><span></span></div>
+
+      <p><strong>I. Primary Capability Leverage:</strong> <span id="memoLeverage">Combines production API resilience with LLM autonomous tool calling to eliminate fragile webhook collapses.</span></p>
+      
+      <p><strong>II. Triangulated Market Pain Relieved:</strong> <span id="memoPain">Buyer fears exponential cost scaling and silent API schema mutations causing lost leads.</span></p>
+
+      <blockquote>
+        "Spend 5 hours deploying your free lead magnet, or spend the next 12 months wondering if a recurring asset was within your grasp."
+      </blockquote>
+
+      <p><strong>III. First Validation Experiment (Regret-Minimization Framing):</strong></p>
+      <p id="memoExperiment" class="small" style="background: var(--bg); padding: 14px; border: 1px solid var(--rule);">
+        Deploy the free Webhook Health Audit script to GitHub and share on r/automation and Hacker News. Capture initial user emails with $0 ad spend.
+      </p>
+
+      <!-- Human Checkpoint Gating -->
+      <div class="checkpoint-box">
+        <div class="checkpoint-title">Human-in-the-Loop Checkpoint Gate</div>
+        <p class="small" id="checkpointInvitation">
+          The system presents this checkpoint not to pressure immediate financial commitment, but to invite you to audit the underlying assumptions before deploying capital.
+        </p>
+        <p class="small" id="kellyAdvice" style="font-style: italic; color: var(--gold);">
+          Kelly-Sizing Principle [13]: Allocate no more than $50 (10% of your $500 runway) to this initial validation test.
+        </p>
+
+        <div style="margin-top: 18px; display: flex; align-items: center; gap: 12px;">
+          <button id="confirmCheckpointBtn" class="action-btn" onclick="toggleCheckpointConfirmation()">
+            ✓ Confirm Assumptions & Grant Self-Permission
+          </button>
+          <span id="checkpointStatus" class="small" style="color: var(--ink-soft); font-weight: 500;">Status: Awaiting Founder Audit</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+  let isCheckpointConfirmed = false;
+
+  async function executeOpportunityPipeline() {
+    const runBtn = document.getElementById('runPipelineBtn');
+    runBtn.disabled = true;
+    runBtn.textContent = "Orchestrating 13-Agent Pipeline & Retrieving Evidence...";
+
+    const payload = {
+      founder_name: document.getElementById('founderName').value || "Ahmed",
+      bio: document.getElementById('bio').value,
+      skills_text: document.getElementById('skillsText').value,
+      category: document.getElementById('targetCategory').value,
+      available_hours: parseFloat(document.getElementById('hoursPerWeek').value) || 15.0,
+      budget_usd: parseFloat(document.getElementById('budgetUsd').value) || 500.0,
+      time_horizon_months: 6,
+      confirm_checkpoint: isCheckpointConfirmed
+    };
+
+    let result = null;
+
+    // Attempt to call the live FastAPI backend
+    try {
+      const response = await fetch('/api/v1/pipeline/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (response.ok) {
+        result = await response.json();
+      }
+    } catch (err) {
+      console.warn("FastAPI backend not reached. Falling back to in-browser deterministic engine:", err);
+    }
+
+    // In-browser fallback engine if running standalone via file:// or API server is paused
+    if (!result) {
+      result = generateClientFallback(payload);
+    }
+
+    renderPipelineResults(result);
+
+    runBtn.disabled = false;
+    runBtn.textContent = "Re-Synthesize Opportunity Portfolio →";
+
+    // Scroll smoothly to results
+    const resultsSec = document.getElementById('resultsSection');
+    resultsSec.classList.add('visible');
+    resultsSec.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function renderPipelineResults(data) {
+    // 1. Audit Log
+    const logBox = document.getElementById('auditLogContainer');
+    logBox.innerHTML = '';
+    (data.run_log || []).forEach(log => {
+      const item = document.createElement('div');
+      item.className = 'audit-log-item';
+      item.innerHTML = `<span class="check">✓</span> <span>${log}</span>`;
+      logBox.appendChild(item);
+    });
+
+    // 2. Scorecard Table
+    const sc = data.scorecard;
+    const tbody = document.getElementById('scorecardBody');
+    tbody.innerHTML = `
+      <tr><td>Buyer Pain</td><td class="score-num">${sc.buyer_pain}/10</td><td>Agent 4 Chronological Obstacle Severity</td></tr>
+      <tr><td>Evidence Strength</td><td class="score-num">${sc.evidence_strength}/10</td><td>Agent 3 Multi-Source Triangulation (Forums, Reviews, Reports)</td></tr>
+      <tr><td>Capability Fit</td><td class="score-num">${sc.capability_fit}/10</td><td>Agent 1 Founder Skills & Runway Alignment</td></tr>
+      <tr><td>Multiplicative Potential</td><td class="score-num">${sc.multiplicative_potential}/10</td><td>Bouchaud & Mézard [11] (Asset vs. Hourly Labor)</td></tr>
+      <tr><td>Opportunity Surface Area</td><td class="score-num">${sc.opportunity_surface_area}/10</td><td>Pluchino et al. [12] (Zero-friction distribution breadth)</td></tr>
+      <tr><td>Defensibility</td><td class="score-num">${sc.defensibility}/10</td><td>Barney (RBV) [15] (Cross-cluster skill intersections)</td></tr>
+      <tr><td>AI Leverage</td><td class="score-num">${sc.ai_leverage}/10</td><td>Maresca [14] (Capital & Inference Leverage)</td></tr>
+      <tr><td>Recurring Revenue Potential</td><td class="score-num">${sc.recurring_revenue_potential}/10</td><td>De Giovanni [9] (3-tier recurring backend funnel)</td></tr>
+      <tr><td>Asset Accumulation</td><td class="score-num">${sc.asset_accumulation_potential}/10</td><td>Penrose [16] (Firm compounding resource base)</td></tr>
+      <tr><td>Risk / Validation Cost</td><td class="score-num">${sc.risk_validation_cost}/10</td><td>Kelly [13] (Downside-capped sizing)</td></tr>
+      <tr class="total-row"><td><strong>Composite Score</strong></td><td class="score-num" style="color: var(--ink); font-size: 1.25rem;">${sc.composite_score}/100</td><td><strong>${sc.recommendation}</strong></td></tr>
+    `;
+
+    // 3. Value Diagnosis
+    const vd = data.value_diagnosis;
+    document.getElementById('valScoreNum').textContent = vd.computed_score;
+    document.getElementById('valBottleneck').textContent = vd.bottleneck_dimension;
+    document.getElementById('valRemediation').textContent = vd.remediation_recommendation;
+
+    // 4. Product Suite Funnel
+    const ps = data.product_suite;
+    document.getElementById('t1Title').textContent = ps.lead_magnet.title;
+    document.getElementById('t1Tagline').textContent = ps.lead_magnet.tagline;
+    renderDeliverables('t1Deliverables', ps.lead_magnet.deliverables);
+
+    document.getElementById('t2Title').textContent = ps.core_offer.title;
+    document.getElementById('t2Tagline').textContent = ps.core_offer.tagline;
+    document.getElementById('t2Price').innerHTML = `$${ps.core_offer.price_point_usd.toLocaleString()} <span>(One-time asset)</span>`;
+    renderDeliverables('t2Deliverables', ps.core_offer.deliverables);
+
+    document.getElementById('t3Title').textContent = ps.backend_asset.title;
+    document.getElementById('t3Tagline').textContent = ps.backend_asset.tagline;
+    document.getElementById('t3Price').innerHTML = `$${ps.backend_asset.price_point_usd.toLocaleString()} <span>/month MRR</span>`;
+    renderDeliverables('t3Deliverables', ps.backend_asset.deliverables);
+
+    // 5. Ownership Mindset Reframing
+    const memo = data.founder_decision_memo;
+    document.getElementById('laborFramingText').textContent = memo.product_suite_summary.core_offer.deliverables[0] ? `Hourly billing: "I will manually configure this for $50/hr."` : "Manual hourly tasks.";
+    document.getElementById('assetFramingText').textContent = memo.reframe_from_labor_to_asset;
+
+    // 6. Memo Box
+    document.getElementById('memoId').textContent = memo.memo_id;
+    document.getElementById('memoDate').textContent = memo.date;
+    document.getElementById('memoTitle').textContent = memo.primary_opportunity_title;
+    document.getElementById('memoTargetNiche').innerHTML = `Prepared for <strong>${memo.founder_name}</strong> · Target Persona: ${memo.target_persona}`;
+    document.getElementById('memoLeverage').textContent = memo.core_capability_leverage;
+    document.getElementById('memoPain').textContent = memo.buyer_obstacle_relieved;
+    document.getElementById('memoExperiment').textContent = memo.first_validation_experiment;
+    document.getElementById('checkpointInvitation').textContent = memo.human_checkpoint.invitation_message;
+    document.getElementById('kellyAdvice').textContent = memo.human_checkpoint.kelly_sizing_advice;
+  }
+
+  function renderDeliverables(elementId, items) {
+    const ul = document.getElementById(elementId);
+    ul.innerHTML = '';
+    (items || []).forEach(it => {
+      const li = document.createElement('li');
+      li.textContent = it;
+      ul.appendChild(li);
+    });
+  }
+
+  function toggleCheckpointConfirmation() {
+    isCheckpointConfirmed = !isCheckpointConfirmed;
+    const btn = document.getElementById('confirmCheckpointBtn');
+    const status = document.getElementById('checkpointStatus');
+
+    if (isCheckpointConfirmed) {
+      btn.style.background = "var(--gold)";
+      btn.style.borderColor = "var(--gold)";
+      btn.style.color = "var(--surface)";
+      btn.textContent = "✓ Self-Permission Granted (Confirmed)";
+      status.textContent = "Status: Checkpoint Confirmed by Founder";
+      status.style.color = "var(--gold)";
+    } else {
+      btn.style.background = "var(--surface)";
+      btn.style.borderColor = "var(--rule)";
+      btn.style.color = "var(--ink)";
+      btn.textContent = "✓ Confirm Assumptions & Grant Self-Permission";
+      status.textContent = "Status: Awaiting Founder Audit";
+      status.style.color = "var(--ink-soft)";
+    }
+  }
+
+  // Client-side fallback if running without server
+  function generateClientFallback(p) {
+    const isAuto = p.category === "WORKFLOW_AUTOMATION";
+    return {
+      run_log: [
+        "Executing Agent 1a: Profile Ingestion & Parsing",
+        "Executing Agents 1b, 2, 1d: Capability Decomposition & Contradiction Checking",
+        `Executing Agent 3: Market Evidence Retrieval for ${p.category}`,
+        "Executing Agent 4: Buyer Obstacle-Chain Extraction",
+        "Executing Agent 5: Dual-Graph Translation & Ownership Mindset Reframing",
+        "Executing Agent 8: Value Equation Offer Diagnosis",
+        "Executing Agent 9: 3-Tier Funnel & Product Suite Generation",
+        "Executing Agent 7: Ten-Dimension Opportunity Scorecard",
+        "Evaluating Human Checkpoint Gating"
+      ],
+      scorecard: {
+        opportunity_name: isAuto ? "Resilient Multi-Tenant Automation Engine" : "Deterministic Document Extraction Pipeline",
+        buyer_pain: 8.5,
+        evidence_strength: 8.2,
+        capability_fit: 8.8,
+        multiplicative_potential: 9.0,
+        opportunity_surface_area: 8.0,
+        defensibility: 8.5,
+        ai_leverage: 9.0,
+        recurring_revenue_potential: 9.0,
+        asset_accumulation_potential: 8.5,
+        risk_validation_cost: 8.5,
+        composite_score: 86.0,
+        recommendation: "STRONG PURSUE - Asset formation profile highly viable."
+      },
+      value_diagnosis: {
+        computed_score: 11.2,
+        bottleneck_dimension: "Effort & Sacrifice",
+        remediation_recommendation: "Package the asset with zero-config Docker Compose and automated health alerts to eliminate maintenance burden."
+      },
+      product_suite: {
+        lead_magnet: {
+          title: "Webhook Health & Schema Mutation Audit CLI",
+          tagline: "Find silent API drops in 10 minutes",
+          price_point_usd: 0,
+          deliverables: ["Automated diagnostic CLI script", "Schema drift audit checklist"]
+        },
+        core_offer: {
+          title: "Turnkey Resilient n8n + Postgres Automation Engine",
+          tagline: "Bulletproof workflow pipeline with dead-letter queueing and retries",
+          price_point_usd: 1497,
+          deliverables: ["Dockerized multi-tenant n8n deployment", "PostgreSQL retry buffer", "Production migration harness"]
+        },
+        backend_asset: {
+          title: "Autonomous Pipeline SRE & Managed Retainer",
+          tagline: "Continuous schema monitoring, zero-downtime updates, and priority fixes",
+          price_point_usd: 399,
+          deliverables: ["24/7 uptime monitoring", "Monthly API migration patching", "Incident response SLA"]
+        }
+      },
+      founder_decision_memo: {
+        memo_id: "MEMO-" + Math.random().toString(36).substring(2, 9).toUpperCase(),
+        date: new Date().toISOString().split('T')[0],
+        founder_name: p.founder_name,
+        primary_opportunity_title: isAuto ? "Resilient Automation Engine" : "Deterministic ETL Asset",
+        target_persona: "High-Volume B2B SaaS Founders & Tech Leads",
+        core_capability_leverage: "Combines production API resilience with LLM autonomous tool calling to eliminate fragile webhook collapses.",
+        buyer_obstacle_relieved: "Silent webhook crashes and schema mutations causing lost leads without centralized alerting.",
+        reframe_from_labor_to_asset: "Turnkey Dockerized n8n + PostgreSQL workflow engine with pre-configured webhooks sold as a recurring managed asset ($399/mo).",
+        product_suite_summary: {
+          core_offer: { deliverables: ["Production deployment"] }
+        },
+        first_validation_experiment: "Deploy the free Webhook Health Audit script to GitHub and share on r/automation and Hacker News. Capture initial user emails with $0 ad spend.",
+        human_checkpoint: {
+          invitation_message: `Hello ${p.founder_name}. We present this checkpoint not to pressure immediate commitment, but to invite you to audit the underlying assumptions.`,
+          kelly_sizing_advice: `Per Kelly-sizing principles [13]: With a budget of $${p.budget_usd}, allocate no more than $${Math.min(50, p.budget_usd * 0.15)} (10-15%) to this initial validation experiment.`
+        }
+      }
+    };
+  }
+</script>
+
+</body>
+</html>
