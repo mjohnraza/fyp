@@ -195,11 +195,19 @@ def test_cache_invalidation():
 def test_api_invalid_constraints():
     """QA-013: Invalid numeric constraints return HTTP 422 instead of HTTP 500."""
     client = TestClient(app)
-    resp = client.post("/api/v1/pipeline/run", json={
-        "founder_name": "BadInput",
-        "bio": "Dev",
-        "skills_text": "python",
-        "available_hours": -5.0,  # Invalid: must be >= 1.0
-        "budget_usd": -100.0      # Invalid: must be >= 0.0
-    })
+    token = client.post(
+        "/api/v1/auth/token",
+        data={"username": "ahmed@nu.edu.pk", "password": "founder123"},
+    ).json()["access_token"]
+    resp = client.post(
+        "/api/v1/pipeline/run",
+        json={
+            "founder_name": "BadInput",
+            "bio": "Dev",
+            "skills_text": "python",
+            "available_hours": -5.0,  # Invalid: must be >= 1.0
+            "budget_usd": -100.0      # Invalid: must be >= 0.0
+        },
+        headers={"Authorization": f"Bearer {token}"}
+    )
     assert resp.status_code == 422

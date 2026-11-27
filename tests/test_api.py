@@ -36,6 +36,11 @@ def test_learning_module_serving():
 
 
 def test_pipeline_run_api():
+    tok_resp = client.post(
+        "/api/v1/auth/token",
+        data={"username": "ahmed@nu.edu.pk", "password": "founder123"},
+    )
+    token = tok_resp.json()["access_token"]
     payload = {
         "founder_name": "Tariq",
         "bio": "Automation engineer with FastAPI background",
@@ -46,7 +51,11 @@ def test_pipeline_run_api():
         "time_horizon_months": 6,
         "confirm_checkpoint": True
     }
-    response = client.post("/api/v1/pipeline/run", json=payload)
+    response = client.post(
+        "/api/v1/pipeline/run",
+        json=payload,
+        headers={"Authorization": f"Bearer {token}"}
+    )
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "COMPLETED"

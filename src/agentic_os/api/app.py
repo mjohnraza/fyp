@@ -1,5 +1,5 @@
 import logging
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Security
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
@@ -12,14 +12,17 @@ from src.agentic_os.orchestrator.pipeline import MasterOrchestrator
 from src.agentic_os.runtime.skill_loader import SkillLoader
 from src.agentic_os.runtime.tool_registry import ToolRegistry
 from src.agentic_os.runtime.skill_agents import OpportunityCoordinatorAgent
+from src.agentic_os.auth import auth_router, get_current_user, PublicUser
 
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Agentic Entrepreneur OS API",
-    description="REST API for FAST NUCES FYP-I: Opportunity Discovery Pipeline",
+    description="REST API for FAST NUCES FYP-I: Opportunity Discovery Pipeline (OAuth 2.0 Protected)",
     version="1.0.0"
 )
+
+app.include_router(auth_router)
 
 orchestrator = MasterOrchestrator()
 
@@ -52,7 +55,12 @@ def get_categories():
 
 
 @app.post("/api/v1/pipeline/run")
-def run_full_pipeline(req: PipelineRunRequest):
+def run_full_pipeline(
+    req: PipelineRunRequest,
+    current_user: PublicUser = Security(get_current_user, scopes=["pipeline:run"]),
+):
+    if req.confirm_checkpoint and "memo:approve" not in current_user.scopes:
+        raise HTTPException(status_code=403, detail="Missing 'memo:approve' scope to confirm checkpoint.")
     try:
         result = orchestrator.run_pipeline(
             founder_name=req.founder_name,
@@ -102,7 +110,12 @@ def list_available_tools(attach_mcp: bool = False):
 
 
 @app.post("/api/v1/agent/run")
-def run_skill_mcp_agent_loop(req: PipelineRunRequest, use_llm: bool = False, attach_mcp: bool = True):
+def run_skill_mcp_agent_loop(
+    req: PipelineRunRequest,
+    use_llm: bool = False,
+    attach_mcp: bool = True,
+    _current_user: PublicUser = Security(get_current_user, scopes=["agent:run"]),
+):
     try:
         coordinator = OpportunityCoordinatorAgent(attach_mcp=attach_mcp, use_llm=use_llm)
         exec_result = coordinator.run(

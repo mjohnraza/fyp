@@ -590,6 +590,44 @@
     <a href="/learning/" onclick="if(location.protocol==='file:'){this.href='../learning_module/index.html';}">Study Learning Module & Flashcards →</a>
   </div>
 
+  <!-- OAuth 2.0 Authentication & Authorization Panel -->
+  <div class="form-panel" id="authPanel" style="border-left: 3px solid var(--gold); margin-bottom: 30px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h3 style="font-family: 'Fraunces', serif; font-size: 1.2rem; margin: 0;">Founder Authentication &amp; OAuth 2.0 Session</h3>
+        <p id="authStatusText" class="small" style="margin: 2px 0 0;">Sign in to access protected pipeline &amp; MCP agent endpoints (Demo: <code>ahmed@nu.edu.pk</code> / <code>founder123</code>).</p>
+      </div>
+      <div id="loggedInControls" style="display: none; align-items: center; gap: 10px;">
+        <span id="userBadge" style="font-size: 0.82rem; font-weight: 600; padding: 4px 10px; background: var(--gold-wash); border: 1px solid var(--gold); color: var(--gold);"></span>
+        <button onclick="logoutUser()" style="padding: 7px 14px; font-size: 0.82rem;">Sign Out</button>
+      </div>
+    </div>
+
+    <div id="loggedOutControls" style="margin-top: 16px;">
+      <div class="form-grid" style="gap: 12px;">
+        <div class="form-group">
+          <label for="authEmail">Email</label>
+          <input type="text" id="authEmail" value="ahmed@nu.edu.pk" placeholder="ahmed@nu.edu.pk">
+        </div>
+        <div class="form-group">
+          <label for="authPassword">Password</label>
+          <input type="password" id="authPassword" value="founder123" placeholder="Password" style="width: 100%; padding: 10px 14px; background: var(--bg); border: 1px solid var(--rule); color: var(--ink); font-family: 'Inter', sans-serif; font-size: 0.92rem;">
+        </div>
+      </div>
+      <div id="registerNameWrap" class="form-group" style="display: none; margin-top: 10px;">
+        <label for="authFullName">Full Name (for Registration)</label>
+        <input type="text" id="authFullName" placeholder="e.g. Ayesha Khan">
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; align-items: center;">
+        <button id="loginSubmitBtn" onclick="loginWithPassword()" style="background: var(--ink); color: var(--bg); border-color: var(--ink);">Sign In (OAuth 2.0 Token)</button>
+        <button id="registerToggleBtn" onclick="toggleRegisterMode()">Create Account</button>
+        <a href="/api/v1/auth/oauth2/google/login?redirect=true" class="action-btn" style="font-size: 0.85rem; padding: 9px 14px;">Continue with Google (OAuth 2.0)</a>
+        <a href="/api/v1/auth/oauth2/github/login?redirect=true" class="action-btn" style="font-size: 0.85rem; padding: 9px 14px;">Continue with GitHub (OAuth 2.0)</a>
+      </div>
+      <p id="authErrorText" class="small" style="color: #b33939; margin-top: 8px; display: none;"></p>
+    </div>
+  </div>
+
   <!-- Section I: Founder Capabilities & Constraints -->
   <section id="intakeSection">
     <div class="step-header">
@@ -907,6 +945,102 @@
 
 <script>
   let isCheckpointConfirmed = false;
+  let isRegisterMode = false;
+  let authToken = localStorage.getItem('agentic_os_token') || '';
+
+  async function initAuth() {
+    const params = new URLSearchParams(window.location.search);
+    const oauthTok = params.get('oauth_token');
+    if (oauthTok) {
+      authToken = oauthTok;
+      localStorage.setItem('agentic_os_token', authToken);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    if (authToken) {
+      await refreshUserProfile();
+    }
+  }
+
+  async function refreshUserProfile() {
+    try {
+      const resp = await fetch('/api/v1/auth/me', {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      });
+      if (resp.ok) {
+        const user = await resp.json();
+        document.getElementById('loggedOutControls').style.display = 'none';
+        document.getElementById('loggedInControls').style.display = 'flex';
+        document.getElementById('userBadge').textContent = `${user.full_name} (${user.role} · ${user.auth_provider})`;
+        document.getElementById('authStatusText').textContent = `Authenticated via OAuth 2.0 Bearer Token. Scopes: ${user.scopes.join(', ')}`;
+        if (document.getElementById('founderName').value === 'Ahmed') {
+          document.getElementById('founderName').value = user.full_name;
+        }
+      } else {
+        logoutUser();
+      }
+    } catch (e) {
+      console.warn('Auth check skipped (offline mode)');
+    }
+  }
+
+  function toggleRegisterMode() {
+    isRegisterMode = !isRegisterMode;
+    document.getElementById('registerNameWrap').style.display = isRegisterMode ? 'flex' : 'none';
+    document.getElementById('loginSubmitBtn').textContent = isRegisterMode ? 'Register & Issue Token' : 'Sign In (OAuth 2.0 Token)';
+    document.getElementById('registerToggleBtn').textContent = isRegisterMode ? 'Back to Sign In' : 'Create Account';
+  }
+
+  async function loginWithPassword() {
+    const email = document.getElementById('authEmail').value.trim();
+    const password = document.getElementById('authPassword').value;
+    const errBox = document.getElementById('authErrorText');
+    errBox.style.display = 'none';
+
+    try {
+      let resp;
+      if (isRegisterMode) {
+        const fullName = document.getElementById('authFullName').value.trim() || 'Founder';
+        resp = await fetch('/api/v1/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, full_name: fullName, password })
+        });
+      } else {
+        const form = new URLSearchParams();
+        form.append('username', email);
+        form.append('password', password);
+        resp = await fetch('/api/v1/auth/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: form
+        });
+      }
+
+      const data = await resp.json();
+      if (!resp.ok) {
+        errBox.textContent = data.detail || 'Authentication failed.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      authToken = data.access_token;
+      localStorage.setItem('agentic_os_token', authToken);
+      await refreshUserProfile();
+    } catch (e) {
+      errBox.textContent = 'Could not reach authentication server.';
+      errBox.style.display = 'block';
+    }
+  }
+
+  function logoutUser() {
+    authToken = '';
+    localStorage.removeItem('agentic_os_token');
+    document.getElementById('loggedOutControls').style.display = 'block';
+    document.getElementById('loggedInControls').style.display = 'none';
+    document.getElementById('authStatusText').textContent = 'Sign in to access protected pipeline & MCP agent endpoints (Demo: ahmed@nu.edu.pk / founder123).';
+  }
+
+  initAuth();
 
   async function executeOpportunityPipeline() {
     const runBtn = document.getElementById('runPipelineBtn');
@@ -926,14 +1060,22 @@
 
     let result = null;
 
-    // Attempt to call the live FastAPI backend
+    // Attempt to call the live OAuth 2.0 protected FastAPI backend
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
       const response = await fetch('/api/v1/pipeline/run', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify(payload)
       });
-      if (response.ok) {
+      if (response.status === 401) {
+        const errBox = document.getElementById('authErrorText');
+        errBox.textContent = 'Authentication required: please sign in above to run the protected backend pipeline (or using local preview).';
+        errBox.style.display = 'block';
+      } else if (response.ok) {
         result = await response.json();
       }
     } catch (err) {

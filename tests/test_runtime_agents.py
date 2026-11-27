@@ -131,6 +131,11 @@ def test_agent_api_endpoints():
     assert r_tools.status_code == 200
     assert len(r_tools.json()) >= 7
 
+    token = client.post(
+        "/api/v1/auth/token",
+        data={"username": "ahmed@nu.edu.pk", "password": "founder123"},
+    ).json()["access_token"]
+
     r_run = client.post(
         "/api/v1/agent/run?use_llm=false&attach_mcp=true",
         json={
@@ -141,7 +146,8 @@ def test_agent_api_endpoints():
             "available_hours": 15.0,
             "budget_usd": 500.0,
             "confirm_checkpoint": True
-        }
+        },
+        headers={"Authorization": f"Bearer {token}"}
     )
     assert r_run.status_code == 200
     data = r_run.json()

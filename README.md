@@ -3,7 +3,8 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg)](https://fastapi.tiangolo.com)
-[![Tests Passing](https://img.shields.io/badge/tests-44%2F44%20passed-brightgreen.svg)](tests/)
+[![Tests Passing](https://img.shields.io/badge/tests-50%2F50%20passed-brightgreen.svg)](tests/)
+[![OAuth 2.0](https://img.shields.io/badge/auth-OAuth%202.0%20%2B%20JWT-orange.svg)](src/agentic_os/auth/)
 
 **Final Year Project (FYP-I Deliverable)**  
 **Department of AI & Computer Science**  
