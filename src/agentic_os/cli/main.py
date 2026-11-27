@@ -96,7 +96,61 @@ def run_interactive():
     console.print(f"• Primary Bottleneck: [bold red]{value_diag.bottleneck_dimension}[/bold red]")
     console.print(f"• Recommended Fix: {value_diag.remediation_recommendation}")
 
-    # 4. Founder Decision Memo
+    # 4. 7-Layer FinOps Optimization Audit
+    opt = result.get("optimization_audit", {})
+    if opt:
+        console.print("\n[bold green]=== PRODUCTION AGENT OPTIMIZATION & FINOPS AUDIT (7 LAYERS) ===[/bold green]")
+        opt_table = Table(title="FinOps & Agent Efficiency Metrics")
+        opt_table.add_column("Layer", style="cyan", no_wrap=True)
+        opt_table.add_column("Strategy", style="yellow")
+        opt_table.add_column("Telemetry & Efficiency Impact", style="green")
+
+        l1 = opt.get("layer1_deterministic", {})
+        opt_table.add_row(
+            "Layer 1", "Deterministic First",
+            f"{l1.get('deterministic_hits', 0)} exact rule/math hits (0 model tokens), ${l1.get('estimated_cost_saved_usd', 0.0)} saved"
+        )
+
+        l2 = opt.get("layer2_model_tiering", {})
+        td = l2.get("tier_distribution", {})
+        opt_table.add_row(
+            "Layer 2", "Model Tiering",
+            f"Routing: {td.get('small_pct', 0)}% Small, {td.get('mid_pct', 0)}% Mid, {td.get('large_pct', 0)}% Large | {l2.get('savings_percentage', 0)}% saved vs flagship"
+        )
+
+        l3 = opt.get("layer3_context_engineering", {})
+        opt_table.add_row(
+            "Layer 3", "Context Engineering",
+            f"{l3.get('cumulative_tokens_trimmed', 0)} tokens trimmed via compact state objects ({l3.get('estimated_context_cost_reduction_pct', 0)}% reduction)"
+        )
+
+        l4 = opt.get("layer4_tool_optimization", {})
+        opt_table.add_row(
+            "Layer 4", "Tool Call Optimization",
+            f"{l4.get('total_tool_calls_monitored', 0)} calls checked, {l4.get('blocked_runaway_loops', 0)} runaway loops halted, strict schema validation enforced"
+        )
+
+        l5 = opt.get("layer5_async_parallel", {})
+        opt_table.add_row(
+            "Layer 5", "Async & Parallel Execution",
+            f"{l5.get('parallel_jobs_dispatched', 0)} concurrent ops dispatched, ~{l5.get('estimated_latency_saved_sec', 0.0)}s latency saved"
+        )
+
+        l6 = opt.get("layer6_caching_telemetry", {})
+        opt_table.add_row(
+            "Layer 6", "4-Tier Caching Strategy",
+            f"{l6.get('total_hits', 0)} hits across response/tool/reasoning tiers ({l6.get('hit_ratio_pct', 0)}% hit ratio)"
+        )
+
+        l7 = opt.get("layer7_guardrails_report", {})
+        opt_table.add_row(
+            "Layer 7", "Guardrails & Early Exit",
+            f"{l7.get('steps_executed', 0)} steps within {l7.get('total_elapsed_sec', 0.0)}s, max loops {l7.get('loop_backs_incurred', 0)}/{l7.get('max_loops_allowed', 2)}, early exits: {l7.get('early_exits_triggered', 0)}"
+        )
+
+        console.print(opt_table)
+
+    # 5. Founder Decision Memo
     memo_md = f"""
 # FOUNDER DECISION MEMO ({memo.memo_id})
 **Date:** {memo.date} | **Founder:** {memo.founder_name}

@@ -69,7 +69,9 @@ def run_full_pipeline(req: PipelineRunRequest):
             "scorecard": result["scorecard"].model_dump(),
             "value_diagnosis": result["value_diagnosis"].model_dump(),
             "product_suite": result["product_suite"].model_dump(),
-            "founder_decision_memo": result["founder_decision_memo"].model_dump()
+            "founder_decision_memo": result["founder_decision_memo"].model_dump(),
+            "optimization_audit": result.get("optimization_audit", {}),
+            "from_cache": result.get("from_cache", False)
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
