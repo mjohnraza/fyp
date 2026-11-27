@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from src.agentic_os.schemas.offer import ValueEquationDiagnosis
 from src.agentic_os.schemas.obstacle import ObstacleChain
 from src.agentic_os.schemas.profile import CapabilityIntersection
@@ -13,14 +13,15 @@ class OfferDiagnosisAgent:
         self,
         category: str,
         obstacle_chain: ObstacleChain,
-        intersection: CapabilityIntersection
+        intersection: Optional[CapabilityIntersection] = None
     ) -> ValueEquationDiagnosis:
         # 1. Dream Outcome (0-10): Severity of pain relieved directly reflects value of dream outcome
         avg_severity = obstacle_chain.total_friction_score / max(1, len(obstacle_chain.ordered_obstacles))
         dream_outcome = round(min(9.5, max(5.0, avg_severity + 0.8)), 1)
 
         # 2. Perceived Likelihood of Achievement (0-10): Grounded by intersection uniqueness & proof
-        perceived_likelihood = round(min(9.0, max(5.0, intersection.uniqueness_score * 10.0)), 1)
+        uniqueness = intersection.uniqueness_score if intersection else 0.80
+        perceived_likelihood = round(min(9.0, max(5.0, uniqueness * 10.0)), 1)
 
         # 3. Time Delay (0.1 - 10.0): Lower is better (faster time to value)
         # Software/automation assets deliver value rapidly (< 7 days) compared to 6-month consulting

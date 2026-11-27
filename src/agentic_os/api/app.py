@@ -12,6 +12,9 @@ from src.agentic_os.schemas.obstacle import ObstacleChain
 from src.agentic_os.schemas.offer import ValueEquationDiagnosis, ProductSuite
 from src.agentic_os.schemas.orchestration import FounderDecisionMemo
 from src.agentic_os.orchestrator.pipeline import MasterOrchestrator
+from src.agentic_os.runtime.skill_loader import SkillLoader
+from src.agentic_os.runtime.tool_registry import ToolRegistry
+from src.agentic_os.runtime.skill_agents import OpportunityCoordinatorAgent
 
 app = FastAPI(
     title="Agentic Entrepreneur OS API",
@@ -73,6 +76,37 @@ def run_full_pipeline(req: PipelineRunRequest):
             "optimization_audit": result.get("optimization_audit", {}),
             "from_cache": result.get("from_cache", False)
         }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/v1/agent/skills")
+def list_loaded_skills():
+    loader = SkillLoader()
+    return [s.model_dump() for s in loader.list_skills()]
+
+
+@app.get("/api/v1/agent/tools")
+def list_available_tools(attach_mcp: bool = False):
+    registry = ToolRegistry(attach_mcp=attach_mcp)
+    try:
+        return [t.model_dump() for t in registry.list_tools()]
+    finally:
+        registry.close()
+
+
+@app.post("/api/v1/agent/run")
+def run_skill_mcp_agent_loop(req: PipelineRunRequest, use_llm: bool = False, attach_mcp: bool = True):
+    try:
+        coordinator = OpportunityCoordinatorAgent(attach_mcp=attach_mcp, use_llm=use_llm)
+        exec_result = coordinator.run(
+            founder_name=req.founder_name,
+            skills_text=req.skills_text,
+            category=req.category.value,
+            available_hours=req.available_hours,
+            budget_usd=req.budget_usd
+        )
+        return exec_result.model_dump()
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
