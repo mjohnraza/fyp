@@ -31,6 +31,21 @@ class ProfilerAgent:
         "typescript": ("TypeScript Development", "Engineering"),
     }
 
+    def _infer_proficiency(self, lower_text: str) -> ProficiencyLevel:
+        if any(cue in lower_text for cue in ("principal", "staff", "architect", "world-class")):
+            return ProficiencyLevel.EXPERT
+        if any(cue in lower_text for cue in ("senior", "lead", "expert", "production")):
+            return ProficiencyLevel.ADVANCED
+        if any(cue in lower_text for cue in ("beginner", "junior", "learning", "student", "novice")):
+            return ProficiencyLevel.NOVICE
+        return ProficiencyLevel.INTERMEDIATE
+
+    def _extract_years_experience(self, lower_text: str) -> float:
+        match = re.search(r"(\d+(?:\.\d+)?)\s*\+?\s*(?:years?|yrs?)", lower_text)
+        if match:
+            return float(match.group(1))
+        return 0.0
+
     def parse_profile(
         self,
         founder_name: str,
@@ -44,32 +59,23 @@ class ProfilerAgent:
         capabilities: List[CapabilityItem] = []
         lower_text = (skills_text + " " + bio).lower()
 
-        # Keyword mapping
+        inferred_proficiency = self._infer_proficiency(lower_text)
+        extracted_years = self._extract_years_experience(lower_text)
+
+        # Deterministic keyword mapping without fabricating expertise
         detected_names = set()
         for kw, (skill_name, category) in self.SKILL_KEYWORD_MAP.items():
-            if kw in lower_text and skill_name not in detected_names:
+            if re.search(rf"\b{re.escape(kw)}\b", lower_text) and skill_name not in detected_names:
                 detected_names.add(skill_name)
                 capabilities.append(
                     CapabilityItem(
                         name=skill_name,
                         category=category,
-                        proficiency=ProficiencyLevel.ADVANCED,
-                        proof=f"Extracted from profile text: '{kw}' mention",
-                        years_experience=2.5
+                        proficiency=inferred_proficiency,
+                        proof=f"Keyword mention '{kw}' in profile text (unverified)",
+                        years_experience=extracted_years
                     )
                 )
-
-        # Fallback if no matching keywords found
-        if not capabilities:
-            capabilities.append(
-                CapabilityItem(
-                    name="General Python Engineering",
-                    category="Engineering",
-                    proficiency=ProficiencyLevel.INTERMEDIATE,
-                    proof="Self-reported general proficiency",
-                    years_experience=1.5
-                )
-            )
 
         context = ContextItem(
             current_role="Freelance Developer / Engineer",

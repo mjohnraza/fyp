@@ -3,7 +3,7 @@ name = "agentic-entrepreneur-os"
 version = "0.1.0"
 description = "Agentic Entrepreneur OS: A Wealth-Formation Opportunity Discovery Pipeline (FYP-I Deliverable)"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 authors = [
     { name = "FAST NUCES FYP Team", email = "fyp@nu.edu.pk" },
     { name = "Muhammad Fareed Mughal", email = "mfareedmughalinfo@gmail.com" },

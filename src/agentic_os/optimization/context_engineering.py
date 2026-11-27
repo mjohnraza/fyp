@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Any, List, Optional
 from pydantic import BaseModel, Field
 
@@ -14,12 +15,13 @@ class CompactPipelineState(BaseModel):
 
 class ContextEngineer:
     """Layer 3: Context Engineering.
-    Manages prompt payload to bound token costs and reduce hallucinations.
-    Enforces that multi-step agents receive only immediate preceding step outputs
-    and compact state, rather than an unbounded append-only chat trace.
+    Measures actual character/token reduction when compiling compact step state
+    vs passing full raw upstream payloads.
     """
 
     def __init__(self):
+        self.raw_tokens_observed = 0
+        self.compiled_tokens_emitted = 0
         self.tokens_trimmed = 0
 
     def compile_step_context(
@@ -29,8 +31,16 @@ class ContextEngineer:
         additional_signal: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """Assembles a minimal, signal-dense context payload."""
-        # Strips out verbose logs, raw full-text scraping, and ancestor stage traces
-        payload = {
+        raw_serialized = json.dumps(
+            {
+                "state": state.model_dump(),
+                "additional_signal": additional_signal or {},
+            },
+            default=str,
+        )
+        raw_tokens = max(1, len(raw_serialized) // 4)
+
+        payload: Dict[str, Any] = {
             "stage": current_stage,
             "target": state.target_category,
             "constraints": state.constraints_summary,
@@ -39,19 +49,27 @@ class ContextEngineer:
 
         if additional_signal:
             for k, v in additional_signal.items():
-                if k not in ["raw_dump", "full_trace", "debug_log"]:
+                if k not in ("raw_dump", "full_trace", "debug_log"):
                     payload[k] = v
 
-        # Calculate estimated token savings vs naive raw-history replay
-        # An average multi-agent conversation trace accumulates 4,000+ tokens
-        estimated_naive_tokens = 4500
-        compiled_tokens = len(str(payload)) // 4
-        self.tokens_trimmed += max(0, estimated_naive_tokens - compiled_tokens)
+        compiled_tokens = max(1, len(json.dumps(payload, default=str)) // 4)
+        trimmed = max(0, raw_tokens - compiled_tokens)
+
+        self.raw_tokens_observed += raw_tokens
+        self.compiled_tokens_emitted += compiled_tokens
+        self.tokens_trimmed += trimmed
 
         return payload
 
     def get_token_savings_metrics(self) -> Dict[str, Any]:
+        pct = (
+            round((self.tokens_trimmed / self.raw_tokens_observed) * 100.0, 1)
+            if self.raw_tokens_observed > 0
+            else 0.0
+        )
         return {
+            "raw_tokens_observed": self.raw_tokens_observed,
+            "compiled_tokens_emitted": self.compiled_tokens_emitted,
             "cumulative_tokens_trimmed": self.tokens_trimmed,
-            "estimated_context_cost_reduction_pct": 75.0
+            "measured_context_reduction_pct": pct,
         }

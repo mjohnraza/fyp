@@ -1035,21 +1035,28 @@
     document.getElementById('t3Price').innerHTML = `$${ps.backend_asset.price_point_usd.toLocaleString()} <span>/month MRR</span>`;
     renderDeliverables('t3Deliverables', ps.backend_asset.deliverables);
 
-    // 5. Ownership Mindset Reframing
+    // 5. Ownership Mindset Reframing & Memo Box
     const memo = data.founder_decision_memo;
-    document.getElementById('laborFramingText').textContent = memo.product_suite_summary.core_offer.deliverables[0] ? `Hourly billing: "I will manually configure this for $50/hr."` : "Manual hourly tasks.";
-    document.getElementById('assetFramingText').textContent = memo.reframe_from_labor_to_asset;
-
-    // 6. Memo Box
-    document.getElementById('memoId').textContent = memo.memo_id;
-    document.getElementById('memoDate').textContent = memo.date;
-    document.getElementById('memoTitle').textContent = memo.primary_opportunity_title;
-    document.getElementById('memoTargetNiche').innerHTML = `Prepared for <strong>${memo.founder_name}</strong> · Target Persona: ${memo.target_persona}`;
-    document.getElementById('memoLeverage').textContent = memo.core_capability_leverage;
-    document.getElementById('memoPain').textContent = memo.buyer_obstacle_relieved;
-    document.getElementById('memoExperiment').textContent = memo.first_validation_experiment;
-    document.getElementById('checkpointInvitation').textContent = memo.human_checkpoint.invitation_message;
-    document.getElementById('kellyAdvice').textContent = memo.human_checkpoint.kelly_sizing_advice;
+    const cp = data.human_checkpoint || (memo ? memo.human_checkpoint : null);
+    if (memo) {
+      document.getElementById('laborFramingText').textContent = memo.product_suite_summary.core_offer.deliverables[0] ? `Hourly billing: "I will manually configure this for $50/hr."` : "Manual hourly tasks.";
+      document.getElementById('assetFramingText').textContent = memo.reframe_from_labor_to_asset;
+      document.getElementById('memoId').textContent = memo.memo_id;
+      document.getElementById('memoDate').textContent = memo.date;
+      document.getElementById('memoTitle').textContent = memo.primary_opportunity_title;
+      document.getElementById('memoTargetNiche').innerHTML = `Prepared for <strong>${memo.founder_name}</strong> · Target Persona: ${memo.target_persona}`;
+      document.getElementById('memoLeverage').textContent = memo.core_capability_leverage;
+      document.getElementById('memoPain').textContent = memo.buyer_obstacle_relieved;
+      document.getElementById('memoExperiment').textContent = memo.first_validation_experiment;
+    } else {
+      document.getElementById('memoId').textContent = "GATED-CHECKPOINT";
+      document.getElementById('memoTitle').textContent = "Founder Decision Memo (Awaiting Checkpoint Approval)";
+      document.getElementById('memoExperiment').textContent = "Click 'Confirm Assumptions & Grant Self-Permission' below to unlock the final Founder Decision Memo.";
+    }
+    if (cp) {
+      document.getElementById('checkpointInvitation').textContent = cp.invitation_message;
+      document.getElementById('kellyAdvice').textContent = cp.kelly_sizing_advice;
+    }
   }
 
   function renderDeliverables(elementId, items) {
@@ -1072,8 +1079,9 @@
       btn.style.borderColor = "var(--gold)";
       btn.style.color = "var(--surface)";
       btn.textContent = "✓ Self-Permission Granted (Confirmed)";
-      status.textContent = "Status: Checkpoint Confirmed by Founder";
+      status.textContent = "Status: Checkpoint Confirmed — Unlocking Memo...";
       status.style.color = "var(--gold)";
+      executeOpportunityPipeline();
     } else {
       btn.style.background = "var(--surface)";
       btn.style.borderColor = "var(--rule)";

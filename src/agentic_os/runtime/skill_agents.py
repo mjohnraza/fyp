@@ -119,7 +119,8 @@ class OpportunityCoordinatorAgent(BaseReActAgent):
         skills_text: str,
         category: str = "WORKFLOW_AUTOMATION",
         available_hours: float = 15.0,
-        budget_usd: float = 500.0
+        budget_usd: float = 500.0,
+        confirm_checkpoint: bool = False
     ) -> AgentExecutionResult:
         plan = [
             {
@@ -160,7 +161,8 @@ class OpportunityCoordinatorAgent(BaseReActAgent):
                     "skills_text": skills_text,
                     "category": category,
                     "available_hours": available_hours,
-                    "budget_usd": budget_usd
+                    "budget_usd": budget_usd,
+                    "confirm_checkpoint": confirm_checkpoint
                 }
             }
         ]

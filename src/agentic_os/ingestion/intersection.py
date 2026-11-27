@@ -38,25 +38,34 @@ class IntersectionMinerAgent:
             key = (c1, c2)
             rev_key = (c2, c1)
 
+            is_known_synergy = False
             if key in self.INTERSECTION_HEURISTICS:
                 title, leverage, defense = self.INTERSECTION_HEURISTICS[key]
+                is_known_synergy = True
             elif rev_key in self.INTERSECTION_HEURISTICS:
                 title, leverage, defense = self.INTERSECTION_HEURISTICS[rev_key]
+                is_known_synergy = True
             else:
                 title = f"{c1} + {c2} Hybrid Leverage"
                 leverage = f"Synthesizes capabilities from {c1} and {c2} to unlock proprietary workflow efficiencies."
                 defense = "Cross-domain synthesis raises the barrier to entry compared to single-skill competitors."
 
-            # Collect capabilities from both clusters
+            # Collect capabilities deterministically preserving order
             cap1 = next((c.capabilities for c in clusters if c1 in c.name), [])
             cap2 = next((c.capabilities for c in clusters if c2 in c.name), [])
+            combined = list(dict.fromkeys(cap1 + cap2))
+
+            # Compute dynamic uniqueness score based on synergy & capability depth
+            base_uniqueness = 0.80 if is_known_synergy else 0.65
+            depth_bonus = min(0.15, len(combined) * 0.03)
+            uniqueness_score = round(min(0.95, base_uniqueness + depth_bonus), 2)
 
             intersections.append(
                 CapabilityIntersection(
                     intersection_id=f"INT-{counter:02d}",
                     cluster_names=[c1, c2],
-                    combined_capabilities=list(set(cap1 + cap2)),
-                    uniqueness_score=0.88,
+                    combined_capabilities=combined,
+                    uniqueness_score=uniqueness_score,
                     leverage_description=leverage,
                     defensibility_hypothesis=defense
                 )

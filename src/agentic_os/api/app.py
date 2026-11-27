@@ -1,3 +1,4 @@
+import logging
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -6,15 +7,13 @@ from typing import List, Optional, Dict, Any
 from pathlib import Path
 import uvicorn
 
-from src.agentic_os.schemas.profile import FounderProfile, DecompositionOutput
-from src.agentic_os.schemas.corpus import OutcomeCategory, TriangulatedEvidence
-from src.agentic_os.schemas.obstacle import ObstacleChain
-from src.agentic_os.schemas.offer import ValueEquationDiagnosis, ProductSuite
-from src.agentic_os.schemas.orchestration import FounderDecisionMemo
+from src.agentic_os.schemas.corpus import OutcomeCategory
 from src.agentic_os.orchestrator.pipeline import MasterOrchestrator
 from src.agentic_os.runtime.skill_loader import SkillLoader
 from src.agentic_os.runtime.tool_registry import ToolRegistry
 from src.agentic_os.runtime.skill_agents import OpportunityCoordinatorAgent
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Agentic Entrepreneur OS API",
@@ -26,14 +25,15 @@ orchestrator = MasterOrchestrator()
 
 
 class PipelineRunRequest(BaseModel):
-    founder_name: str = "Ahmed"
-    bio: str = "Senior Python engineer with experience in FastAPI and automation"
-    skills_text: str = "python, fastapi, n8n, docker, postgresql, rag"
+    founder_name: str = Field("Ahmed", min_length=1, max_length=100)
+    bio: str = Field("Senior Python engineer with experience in FastAPI and automation", min_length=1)
+    skills_text: str = Field("python, fastapi, n8n, docker, postgresql, rag", min_length=1)
     category: OutcomeCategory = OutcomeCategory.WORKFLOW_AUTOMATION
-    available_hours: float = 15.0
-    budget_usd: float = 500.0
-    time_horizon_months: int = 6
-    confirm_checkpoint: bool = True
+    available_hours: float = Field(15.0, ge=1.0, le=100.0)
+    budget_usd: float = Field(500.0, ge=0.0)
+    time_horizon_months: int = Field(6, ge=1, le=60)
+    confirm_checkpoint: bool = Field(False, description="Must be explicitly True to unlock Founder Decision Memo")
+    stop_on_early_exit: bool = False
 
 
 @app.get("/health")
@@ -62,22 +62,28 @@ def run_full_pipeline(req: PipelineRunRequest):
             available_hours=req.available_hours,
             budget_usd=req.budget_usd,
             time_horizon_months=req.time_horizon_months,
-            confirm_checkpoint=req.confirm_checkpoint
+            confirm_checkpoint=req.confirm_checkpoint,
+            stop_on_early_exit=req.stop_on_early_exit
         )
+        memo_obj = result.get("founder_decision_memo")
         return {
             "status": result["status"],
             "run_log": result["run_log"],
             "profile": result["profile"].model_dump(),
             "decomposition": result["decomposition"].model_dump(),
-            "scorecard": result["scorecard"].model_dump(),
-            "value_diagnosis": result["value_diagnosis"].model_dump(),
-            "product_suite": result["product_suite"].model_dump(),
-            "founder_decision_memo": result["founder_decision_memo"].model_dump(),
+            "scorecard": result["scorecard"].model_dump() if result.get("scorecard") else None,
+            "value_diagnosis": result["value_diagnosis"].model_dump() if result.get("value_diagnosis") else None,
+            "product_suite": result["product_suite"].model_dump() if result.get("product_suite") else None,
+            "human_checkpoint": result["human_checkpoint"].model_dump() if result.get("human_checkpoint") else None,
+            "founder_decision_memo": memo_obj.model_dump() if memo_obj else None,
             "optimization_audit": result.get("optimization_audit", {}),
             "from_cache": result.get("from_cache", False)
         }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail="Invalid pipeline input parameters.") from e
+    except Exception:
+        logger.exception("Unhandled error during pipeline execution")
+        raise HTTPException(status_code=500, detail="Internal pipeline error. Check server logs.")
 
 
 @app.get("/api/v1/agent/skills")
@@ -107,8 +113,9 @@ def run_skill_mcp_agent_loop(req: PipelineRunRequest, use_llm: bool = False, att
             budget_usd=req.budget_usd
         )
         return exec_result.model_dump()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        logger.exception("Unhandled error during agent loop execution")
+        raise HTTPException(status_code=500, detail="Internal agent execution error. Check server logs.")
 
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent.parent

@@ -12,7 +12,15 @@ class EvidenceTriangulator:
         category: OutcomeCategory,
         snippets: List[EvidenceSnippet]
     ) -> TriangulatedEvidence:
-        distinct_sources = list({s.source_type for s in snippets})
+        # QA-011: Validate that all supplied snippets belong to the requested category
+        mismatched = [s for s in snippets if s.category != category]
+        if mismatched:
+            raise ValueError(
+                f"Mismatched evidence category: expected {category.value}, "
+                f"found {[s.category.value for s in mismatched]}"
+            )
+
+        distinct_sources = sorted({s.source_type for s in snippets}, key=lambda x: x.value)
         diversity_count = len(distinct_sources)
         passed = diversity_count >= self.MIN_SOURCES_REQUIRED
 

@@ -10,6 +10,17 @@ class ContradictionCheckerAgent:
     def check_contradictions(self, profile: FounderProfile) -> List[ContradictionFlag]:
         flags: List[ContradictionFlag] = []
 
+        # Check 0: Missing or unverified capabilities
+        if len(profile.capabilities) == 0:
+            flags.append(
+                ContradictionFlag(
+                    dimension="Capability Coverage",
+                    severity="HIGH",
+                    issue="No verifiable technical capabilities detected in profile intake.",
+                    suggested_correction="Provide explicit technical skills, projects, or domain tools in the intake."
+                )
+            )
+
         # Check 1: Time availability vs ambition
         if profile.context.available_hours_per_week < 8.0:
             flags.append(
@@ -60,8 +71,8 @@ class DecompositionPipeline:
         contradictions = self.checker.check_contradictions(profile)
 
         # Confidence calculation
-        penalty = sum(0.15 if c.severity == "HIGH" else 0.05 for c in contradictions)
-        confidence = max(0.40, min(1.0, 0.95 - penalty))
+        penalty = sum(0.35 if c.dimension == "Capability Coverage" else (0.15 if c.severity == "HIGH" else 0.05) for c in contradictions)
+        confidence = max(0.25, min(1.0, 0.95 - penalty))
 
         return DecompositionOutput(
             profile_id=profile.id,

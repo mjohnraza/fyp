@@ -82,7 +82,8 @@ def test_opportunity_coordinator_agent_with_live_mcp_loop():
         skills_text="python, fastapi, n8n, docker",
         category="WORKFLOW_AUTOMATION",
         available_hours=15.0,
-        budget_usd=500.0
+        budget_usd=500.0,
+        confirm_checkpoint=True
     )
 
     assert result.status in ("COMPLETED", "EARLY_EXIT")
@@ -138,7 +139,8 @@ def test_agent_api_endpoints():
             "skills_text": "python, sql, etl, docker",
             "category": "DATA_ETL_ANALYTICS",
             "available_hours": 15.0,
-            "budget_usd": 500.0
+            "budget_usd": 500.0,
+            "confirm_checkpoint": True
         }
     )
     assert r_run.status_code == 200

@@ -11,6 +11,7 @@ class ValueEquationDiagnosis(BaseModel):
     computed_score: float = Field(..., description="V = (Dream * Likelihood) / (Time * Effort)")
     bottleneck_dimension: str = Field(..., description="The parameter hurting the offer most")
     remediation_recommendation: str = Field(..., description="Actionable fix to maximize value equation")
+    assumptions: List[str] = Field(default_factory=list, description="Explicit parameter estimation assumptions")
 
 
 class ProductTierType(str, Enum):

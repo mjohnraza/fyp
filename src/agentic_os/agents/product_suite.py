@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from src.agentic_os.schemas.offer import ProductSuite, ProductTier, ProductTierType
 from src.agentic_os.schemas.obstacle import ObstacleChain
 from src.agentic_os.schemas.profile import CapabilityIntersection
@@ -111,25 +111,38 @@ class ProductSuiteGenerationAgent:
         self,
         category: str,
         obstacle_chain: ObstacleChain,
-        intersection: CapabilityIntersection
+        intersection: Optional[CapabilityIntersection] = None
     ) -> ProductSuite:
         cat_key = category.upper()
         if cat_key not in self.SUITE_TEMPLATES:
             cat_key = "WORKFLOW_AUTOMATION"
 
         tmpl = self.SUITE_TEMPLATES[cat_key]
+        primary_obs_label = (
+            obstacle_chain.ordered_obstacles[0].label
+            if obstacle_chain.ordered_obstacles
+            else "Operational Friction"
+        )
+        cap_summary = (
+            ", ".join(intersection.combined_capabilities[:3])
+            if intersection and intersection.combined_capabilities
+            else "Core Engineering Stack"
+        )
 
         lead = ProductTier(
             tier=ProductTierType.LEAD_MAGNET,
             title=tmpl["lead"]["title"],
-            tagline=tmpl["lead"]["tagline"],
+            tagline=f"{tmpl['lead']['tagline']} (Targets: {primary_obs_label})",
             target_delivery_hours=tmpl["lead"]["hours"],
             price_point_usd=tmpl["lead"]["price"],
             is_recurring=False,
-            deliverables=tmpl["lead"]["deliverables"],
+            deliverables=list(tmpl["lead"]["deliverables"]),
             scalability_mechanic=tmpl["lead"]["scalability"]
         )
 
+        core_deliverables = list(tmpl["core"]["deliverables"]) + [
+            f"Built on founder intersection: {cap_summary}"
+        ]
         core = ProductTier(
             tier=ProductTierType.CORE_OFFER,
             title=tmpl["core"]["title"],
@@ -137,7 +150,7 @@ class ProductSuiteGenerationAgent:
             target_delivery_hours=tmpl["core"]["hours"],
             price_point_usd=tmpl["core"]["price"],
             is_recurring=False,
-            deliverables=tmpl["core"]["deliverables"],
+            deliverables=core_deliverables,
             scalability_mechanic=tmpl["core"]["scalability"]
         )
 
@@ -148,7 +161,7 @@ class ProductSuiteGenerationAgent:
             target_delivery_hours=tmpl["backend"]["hours"],
             price_point_usd=tmpl["backend"]["price"],
             is_recurring=True,
-            deliverables=tmpl["backend"]["deliverables"],
+            deliverables=list(tmpl["backend"]["deliverables"]),
             scalability_mechanic=tmpl["backend"]["scalability"]
         )
 
@@ -156,8 +169,9 @@ class ProductSuiteGenerationAgent:
         ltv = core.price_point_usd + (backend.price_point_usd * 12)
 
         thesis = (
-            f"The free lead magnet removes adoption resistance. Delivering the core offer solves the immediate "
-            f"fire, while the recurring backend converts labor into an accumulating, compounding asset stream."
+            f"The free lead magnet removes adoption resistance around '{primary_obs_label}'. "
+            f"Delivering the core offer leverages {cap_summary} to solve the immediate fire, "
+            f"while the recurring backend converts labor into an accumulating, compounding asset stream."
         )
 
         return ProductSuite(

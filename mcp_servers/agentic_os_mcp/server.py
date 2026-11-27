@@ -88,7 +88,7 @@ TOOLS = [
     },
     {
         "name": "generate_founder_decision_memo",
-        "description": "Execute complete 13-agent pipeline with confidence scoring, human checkpoints, and generate Founder Decision Memo.",
+        "description": "Execute complete 13-agent pipeline with confidence scoring, human checkpoints, and generate Founder Decision Memo (requires explicit confirm_checkpoint=True).",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -96,7 +96,8 @@ TOOLS = [
                 "skills_text": {"type": "string"},
                 "category": {"type": "string", "default": "WORKFLOW_AUTOMATION"},
                 "available_hours": {"type": "number", "default": 15.0},
-                "budget_usd": {"type": "number", "default": 500.0}
+                "budget_usd": {"type": "number", "default": 500.0},
+                "confirm_checkpoint": {"type": "boolean", "default": False, "description": "Explicit founder approval required to unlock memo"}
             },
             "required": ["founder_name", "skills_text"]
         }
@@ -161,6 +162,7 @@ def handle_tool_call(name: str, arguments: Dict[str, Any]) -> Any:
     elif name == "generate_founder_decision_memo":
         cat_str = arguments.get("category", "WORKFLOW_AUTOMATION")
         cat = OutcomeCategory(cat_str)
+        confirm_cp = bool(arguments.get("confirm_checkpoint", False))
         result = orchestrator.run_pipeline(
             founder_name=arguments.get("founder_name", "Founder"),
             bio=arguments.get("bio", "Software engineer"),
@@ -168,12 +170,14 @@ def handle_tool_call(name: str, arguments: Dict[str, Any]) -> Any:
             category=cat,
             available_hours=float(arguments.get("available_hours", 15.0)),
             budget_usd=float(arguments.get("budget_usd", 500.0)),
-            confirm_checkpoint=True
+            confirm_checkpoint=confirm_cp
         )
+        memo_obj = result.get("founder_decision_memo")
         return {
             "status": result["status"],
-            "scorecard": result["scorecard"].model_dump(),
-            "founder_decision_memo": result["founder_decision_memo"].model_dump()
+            "scorecard": result["scorecard"].model_dump() if result.get("scorecard") else None,
+            "human_checkpoint": result["human_checkpoint"].model_dump() if result.get("human_checkpoint") else None,
+            "founder_decision_memo": memo_obj.model_dump() if memo_obj else None
         }
 
     else:

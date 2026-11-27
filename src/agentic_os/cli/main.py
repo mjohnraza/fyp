@@ -121,7 +121,7 @@ def run_interactive():
         l3 = opt.get("layer3_context_engineering", {})
         opt_table.add_row(
             "Layer 3", "Context Engineering",
-            f"{l3.get('cumulative_tokens_trimmed', 0)} tokens trimmed via compact state objects ({l3.get('estimated_context_cost_reduction_pct', 0)}% reduction)"
+            f"{l3.get('cumulative_tokens_trimmed', 0)} tokens trimmed via compact state objects ({l3.get('measured_context_reduction_pct', 0)}% reduction)"
         )
 
         l4 = opt.get("layer4_tool_optimization", {})

@@ -101,7 +101,10 @@ The automated test suite (`pytest`) verifies all functional and architectural re
 - `test_offer_diagnosis.py`: Verifies value equation mathematics and 3-tier product suite structure.
 - `test_orchestrator.py`: Verifies end-to-end execution, loop-back triggers, and human checkpoint gating.
 
-**Test Execution Summary:** 12 passed in 0.44s (100% pass rate).
+- `test_api.py` & `test_runtime_agents.py`: Verifies FastAPI routes, live stdio MCP handshake, `SKILL.md` loading, and ReAct agent loops.
+- `test_qa_regression.py`: Verifies loop-back target routing, checkpoint gating, early-exit short-circuiting, empty-intersection handling, and input validation.
+
+**Test Execution Summary:** 44 passed across 9 test modules (100% pass rate). Note: The core `MasterOrchestrator` executes a deterministic/heuristic pipeline by default for reproducibility, while `OpportunityCoordinatorAgent` (`src/agentic_os/runtime/`) provides the live `SKILL.md` + MCP + Ollama ReAct loop.
 
 ---
 

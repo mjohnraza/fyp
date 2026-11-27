@@ -3,7 +3,7 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg)](https://fastapi.tiangolo.com)
-[![Tests Passing](https://img.shields.io/badge/tests-12%2F12%20passed-brightgreen.svg)](tests/)
+[![Tests Passing](https://img.shields.io/badge/tests-44%2F44%20passed-brightgreen.svg)](tests/)
 
 **Final Year Project (FYP-I Deliverable)**  
 **Department of AI & Computer Science**  
@@ -114,7 +114,7 @@ fyp/
 │       └── cli/                    # Rich interactive terminal interface
 ├── mcp_servers/
 │   └── agentic_os_mcp/             # MCP server implementation
-├── tests/                          # 12 Pytest test suites (100% pass)
+├── tests/                          # 44 Pytest tests across 9 modules (100% pass)
 └── docs/                           # Academic & Software Engineering Documentation
     ├── FYP_1_INTERIM_REPORT.md     # Official FAST NUCES FYP-1 Report
     ├── SRS_DOCUMENT.md             # IEEE 830 Software Requirements Specification

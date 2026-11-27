@@ -115,8 +115,19 @@ class DualGraphTranslationLayer:
             G.add_edge(f"BUYER_OBS_{obs.obstacle_id}", relief_node_id, relation="RELIEVED_BY")
             edges.append(GraphEdge(source=f"BUYER_OBS_{obs.obstacle_id}", target=relief_node_id, relation="RELIEVED_BY", weight=1.5))
 
-            # Cross-graph causal edge from capability cluster to buyer relief
-            if clusters:
+            # Cross-graph causal edges from all relevant capability clusters to buyer relief
+            linked_any = False
+            for clus in clusters:
+                # Link cluster if it participates in the active intersection or if no intersection exists
+                if not intersections or any(
+                    any(cn in clus.name for cn in inter.cluster_names)
+                    for inter in intersections
+                ):
+                    cap_source = f"CAP_CLUS_{clus.cluster_id}"
+                    G.add_edge(cap_source, relief_node_id, relation="CAUSAL_MECHANISM")
+                    edges.append(GraphEdge(source=cap_source, target=relief_node_id, relation="CAUSAL_MECHANISM", weight=2.0))
+                    linked_any = True
+            if not linked_any and clusters:
                 cap_source = f"CAP_CLUS_{clusters[0].cluster_id}"
                 G.add_edge(cap_source, relief_node_id, relation="CAUSAL_MECHANISM")
                 edges.append(GraphEdge(source=cap_source, target=relief_node_id, relation="CAUSAL_MECHANISM", weight=2.0))

@@ -93,6 +93,16 @@ class FourTierCacheManager:
         key = self._hash_key({"stage": stage_name, "sig": input_signature})
         self._reasoning_cache[key] = CacheEntry(reasoning_output, ttl)
 
+    def invalidate_response(self, input_payload: Dict[str, Any]) -> bool:
+        key = self._hash_key(input_payload)
+        return self._response_cache.pop(key, None) is not None
+
+    def invalidate_all(self) -> None:
+        self._response_cache.clear()
+        self._embedding_cache.clear()
+        self._tool_cache.clear()
+        self._reasoning_cache.clear()
+
     def get_telemetry(self) -> Dict[str, Any]:
         total_hits = sum(self.hits.values())
         total_misses = sum(self.misses.values())
